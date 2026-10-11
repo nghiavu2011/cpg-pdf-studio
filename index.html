@@ -1,0 +1,1502 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CPG PDF Studio - Giải Pháp Biên Tập & Ký Số PDF Doanh Nghiệp</title>
+  <meta name="description" content="Hệ thống biên tập, bảo mật, đóng dấu bản quyền và ký số tài liệu PDF chuyên nghiệp dành cho Tập đoàn CPG." />
+  <link rel="icon" type="image/png" href="images/cpg_logo_white_opt.png" />
+  
+  <!-- Offline PDF manipulation engine -->
+  <script src="pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0b0f17;
+      --header-bg: #111827;
+      --header-border: #1f2937;
+      --header-text: #f9fafb;
+      --header-muted: #9ca3af;
+      --accent-blue: #2563eb;
+      --accent-blue-hover: #1d4ed8;
+      --accent-gold: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-green: #10b981;
+      --panel-bg: #1f2937;
+      --panel-border: #374151;
+      --card-bg: #162032;
+      --input-bg: #0f172a;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--header-text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ================= CPG CORPORATE HEADER ================= */
+    .cpg-header {
+      height: 52px;
+      background: linear-gradient(180deg, #131c2e 0%, #0c121e 100%);
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      z-index: 100;
+      user-select: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 260px;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 34px;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-logo-img {
+      height: 24px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-name {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      letter-spacing: 0.5px;
+    }
+
+    .brand-tagline {
+      font-size: 10px;
+      color: #94a3b8;
+      letter-spacing: 0.2px;
+    }
+
+    /* Actions Toolbar */
+    .tools-section {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .btn-tool {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 32px;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-tool:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-tool:active {
+      transform: translateY(1px);
+    }
+
+    .btn-tool.primary {
+      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+      border-color: #3b82f6;
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-tool.primary:hover {
+      background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
+    }
+
+    .btn-tool.accent-stamp {
+      background: linear-gradient(180deg, rgba(220, 38, 38, 0.2) 0%, rgba(185, 28, 28, 0.25) 100%);
+      border-color: rgba(239, 68, 68, 0.45);
+      color: #fca5a5;
+    }
+
+    .btn-tool.accent-stamp:hover {
+      background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+      color: #ffffff;
+      border-color: #ef4444;
+    }
+
+    .btn-tool.accent-sign {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.22) 100%);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+
+    .btn-tool.accent-sign:hover {
+      background: linear-gradient(180deg, #059669 0%, #047857 100%);
+      color: #ffffff;
+      border-color: #10b981;
+    }
+
+    .btn-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 0 2px;
+    }
+
+    /* Right utilities */
+    .utility-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-switcher {
+      display: flex;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 2px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .lang-btn.active {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    /* Status Bar Strip */
+    .status-strip {
+      height: 28px;
+      background: #090e17;
+      border-bottom: 1px solid #1a2233;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      font-size: 11px;
+      color: #94a3b8;
+      user-select: none;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 6px var(--accent-green);
+    }
+
+    .status-dot.dirty {
+      background: var(--accent-gold);
+      box-shadow: 0 0 6px var(--accent-gold);
+    }
+
+    .doc-name-badge {
+      color: #f1f5f9;
+      font-weight: 600;
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .quick-stamp-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quick-chip {
+      font-size: 10px;
+      padding: 1px 8px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .quick-chip:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+    }
+
+    /* ================= MAIN WORKSPACE & IFRAME ================= */
+    .workspace-area {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 80px);
+      background: #19191c;
+      overflow: hidden;
+    }
+
+    .editor-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #19191c;
+    }
+
+    /* Drag & drop overlay */
+    .drag-drop-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(4px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      z-index: 50;
+      border: 3px dashed #3b82f6;
+      border-radius: 10px;
+      margin: 12px;
+      pointer-events: none;
+    }
+
+    .drag-drop-overlay.active {
+      display: flex;
+    }
+
+    .drag-drop-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .drag-drop-desc {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    /* ================= CORPORATE MODALS ================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      width: 620px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(-10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #141d2e;
+    }
+
+    .modal-header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+      border-radius: 4px;
+    }
+
+    .modal-close-btn:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #0d121c;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .form-input, .form-select {
+      background: var(--input-bg);
+      border: 1px solid #334155;
+      color: #ffffff;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: #3b82f6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Watermark Preview Box */
+    .watermark-preview-wrap {
+      border: 1px solid #334155;
+      border-radius: 8px;
+      height: 160px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .watermark-preview-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Signature Canvas Pad */
+    .sig-canvas-wrap {
+      border: 1px solid #334155;
+      border-radius: 8px;
+      height: 180px;
+      background: #ffffff;
+      position: relative;
+      touch-action: none;
+    }
+
+    .sig-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+
+    .sig-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    /* Toast Notification */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid #3b82f6;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 500;
+      animation: toastIn 0.25s ease;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= TOP CORPORATE CPG HEADER ================= -->
+  <header class="cpg-header">
+    <div class="brand-section">
+      <div class="brand-logo-wrap" title="Tập đoàn CPG">
+        <img class="brand-logo-img" src="images/cpg_logo_white_opt.png" alt="CPG Logo" />
+      </div>
+      <div class="brand-titles">
+        <div class="brand-name-row">
+          <span class="brand-name">CPG PDF STUDIO</span>
+          <span class="brand-badge">ENTERPRISE</span>
+        </div>
+        <span class="brand-tagline" data-i18n="tagline">Hệ Thống Biên Tập & Ký Số PDF · CPG Corp</span>
+      </div>
+    </div>
+
+    <!-- Action Toolbar -->
+    <div class="tools-section">
+      <button class="btn-tool primary" id="btnOpen" title="Mở file PDF từ máy tính (Ctrl+O)">
+        <span>📁</span> <span data-i18n="open">Mở PDF</span>
+      </button>
+
+      <button class="btn-tool" id="btnSave" title="Lưu tài liệu đã sửa (Ctrl+S)">
+        <span>💾</span> <span data-i18n="save">Lưu PDF</span>
+      </button>
+
+      <div class="btn-divider"></div>
+
+      <button class="btn-tool accent-stamp" id="btnWatermarkModal" title="Đóng dấu bản quyền, bảo mật CPG lên tất cả các trang">
+        <span>🏷️</span> <span data-i18n="stampWatermark">Đóng Dấu CPG</span>
+      </button>
+
+      <button class="btn-tool accent-sign" id="btnSignModal" title="Tạo chữ ký tay và con dấu tròn đỏ CPG">
+        <span>✍️</span> <span data-i18n="digitalSign">Ký Số & Con Dấu</span>
+      </button>
+
+      <button class="btn-tool" id="btnMergeModal" title="Gộp nhiều file PDF thành một tập tài liệu">
+        <span>📑</span> <span data-i18n="merge">Ghép File</span>
+      </button>
+
+      <button class="btn-tool" id="btnSplitModal" title="Tách trang hoặc trích xuất trang lẻ/chẵn">
+        <span>✂️</span> <span data-i18n="split">Tách Trang</span>
+      </button>
+
+      <div class="btn-divider"></div>
+
+      <button class="btn-tool" id="btnPortableInfo" title="Hướng dẫn sử dụng bản Desktop Portable trên Windows">
+        <span>💻</span> <span data-i18n="portable">Bản Portable</span>
+      </button>
+
+      <button class="btn-tool" id="btnHelp" title="Phím tắt & Hướng dẫn sử dụng">
+        <span>ℹ️</span> <span data-i18n="help">Trợ Giúp</span>
+      </button>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="utility-section">
+      <div class="lang-switcher">
+        <button class="lang-btn active" id="btnLangVi">🇻🇳 TV</button>
+        <button class="lang-btn" id="btnLangEn">🇺🇸 EN</button>
+      </div>
+
+      <button class="btn-tool" id="btnFullscreen" title="Toàn màn hình">
+        <span id="fsIcon">⛶</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= DOCUMENT STATUS STRIP ================= -->
+  <div class="status-strip">
+    <div class="status-left">
+      <div class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText" data-i18n="readyEngine">WebAssembly Engine: Sẵn sàng</span>
+      </div>
+      <span>|</span>
+      <div>
+        <span data-i18n="docLabel">Tài liệu:</span> <span class="doc-name-badge" id="currentDocLabel">Chưa mở file nào (Kéo thả file vào đây)</span>
+      </div>
+    </div>
+
+    <div class="quick-stamp-chips">
+      <span style="font-size:10px; color:#64748b;" data-i18n="quickStamp">Gắn dấu nhanh:</span>
+      <span class="quick-chip" onclick="quickApplyStamp('CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ')">+ CPG Confidential</span>
+      <span class="quick-chip" onclick="quickApplyStamp('BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP')">+ Bản Quyền CPG</span>
+      <span class="quick-chip" onclick="quickApplyStamp('ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG')">+ Phê Duyệt CPG</span>
+    </div>
+  </div>
+
+  <!-- Hidden File Input -->
+  <input type="file" id="filePicker" accept=".pdf" style="display:none;" />
+
+  <!-- ================= WORKSPACE WITH EMBEDDED EDITOR ================= -->
+  <main class="workspace-area" id="dropZone">
+    <iframe id="editorFrame" class="editor-frame" src="./editor.html?host=parent&author=CPG%20Enterprise" allow="fullscreen; clipboard-read; clipboard-write"></iframe>
+    
+    <!-- Drag & Drop overlay -->
+    <div class="drag-drop-overlay" id="dragOverlay">
+      <div style="font-size: 48px;">📄</div>
+      <div class="drag-drop-title" data-i18n="dropTitle">Thả file PDF vào đây để mở</div>
+      <div class="drag-drop-desc" data-i18n="dropDesc">Tệp tin được xử lý an toàn 100% cục bộ trên trình duyệt của bạn</div>
+    </div>
+  </main>
+
+  <!-- ================= MODAL 1: ĐÓNG DẤU BẢN QUYỀN CPG ================= -->
+  <div class="modal-backdrop" id="modalWatermark">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>🏷️</span> <span data-i18n="modalWatermarkTitle">Đóng Dấu Bản Quyền & Bảo Mật CPG</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalWatermark')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" data-i18n="watermarkPreset">Mẫu dấu doanh nghiệp chuẩn:</label>
+          <select class="form-select" id="wmPresetSelect" onchange="onWmPresetChange()">
+            <option value="BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP">1. BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP</option>
+            <option value="CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" selected>2. CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ</option>
+            <option value="ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG">3. ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG</option>
+            <option value="DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG">4. DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG</option>
+            <option value="HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG">5. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG</option>
+            <option value="BẢN THẢO - DRAFT ONLY">6. BẢN THẢO - DRAFT ONLY</option>
+            <option value="CUSTOM">-- Tự nhập nội dung riêng --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-i18n="watermarkText">Nội dung chữ đóng dấu:</label>
+          <input type="text" class="form-input" id="wmTextInput" value="CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" oninput="renderWmSample()" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-i18n="watermarkColor">Màu sắc dấu:</label>
+            <select class="form-select" id="wmColorSelect" onchange="renderWmSample()">
+              <option value="red" selected>Đỏ Doanh Nghiệp CPG (#DC2626)</option>
+              <option value="gray">Xám Bảo Mật Mờ (#475569)</option>
+              <option value="blue">Xanh Dương CPG (#1E40AF)</option>
+              <option value="black">Đen Tiêu Chuẩn (#111827)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="watermarkAngle">Góc nghiêng chữ:</label>
+            <select class="form-select" id="wmAngleSelect" onchange="renderWmSample()">
+              <option value="45" selected>Nghiêng 45° (Chéo trang chuẩn)</option>
+              <option value="0">Ngang 0° (Ngang giữa trang)</option>
+              <option value="-45">Nghiêng -45° (Chéo ngược)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-i18n="watermarkOpacity">Độ trong suốt (Mờ nhẹ):</label>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <input type="range" id="wmOpacityRange" min="10" max="60" value="22" style="flex:1;" oninput="document.getElementById('wmOpacityVal').innerText = this.value + '%'; renderWmSample();" />
+              <span id="wmOpacityVal" style="font-size:12px; width:36px; text-align:right;">22%</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="watermarkSize">Cỡ chữ watermark:</label>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <input type="range" id="wmSizeRange" min="18" max="48" value="30" style="flex:1;" oninput="document.getElementById('wmSizeVal').innerText = this.value + 'pt'; renderWmSample();" />
+              <span id="wmSizeVal" style="font-size:12px; width:36px; text-align:right;">30pt</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview Box -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="watermarkPreview">Mô phỏng dấu trên trang giấy A4:</label>
+          <div class="watermark-preview-wrap">
+            <canvas id="wmCanvas" class="watermark-preview-canvas" width="400" height="160"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool" onclick="closeModal('modalWatermark')" data-i18n="cancel">Hủy Bỏ</button>
+        <button class="btn-tool primary" id="btnApplyWatermark" onclick="applyWatermarkToDocument()">
+          <span>⚡</span> <span data-i18n="applyAndOpen">Đóng Dấu & Mở Trong Editor</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 2: KÝ SỐ & CON DẤU ĐỎ CPG ================= -->
+  <div class="modal-backdrop" id="modalSign">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>✍️</span> <span data-i18n="modalSignTitle">Ký Số & Con Dấu Đỏ Doanh Nghiệp CPG</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalSign')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display:flex; gap:10px; border-bottom:1px solid #334155; padding-bottom:8px;">
+          <button class="btn-tool primary" id="tabBtnPad" onclick="switchSignTab('pad')">Ký Tay (Draw)</button>
+          <button class="btn-tool" id="tabBtnSeal" onclick="switchSignTab('seal')">Con Dấu Đỏ CPG (Red Seal)</button>
+        </div>
+
+        <!-- Tab 1: Ký tay -->
+        <div id="tabContentPad">
+          <div class="form-group">
+            <label class="form-label" data-i18n="signPadLabel">Ký tên vào ô bên dưới bằng chuột hoặc bút cảm ứng:</label>
+            <div class="sig-canvas-wrap">
+              <canvas id="sigCanvas" class="sig-canvas" width="580" height="180"></canvas>
+            </div>
+            <div class="sig-tools">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <span style="font-size:11px; color:#94a3b8;">Màu mực:</span>
+                <button class="btn-tool" style="padding:2px 8px; color:#2563eb;" onclick="setInkColor('#1e40af')">Xanh</button>
+                <button class="btn-tool" style="padding:2px 8px; color:#111827; background:#cbd5e1;" onclick="setInkColor('#111827')">Đen</button>
+                <button class="btn-tool" style="padding:2px 8px; color:#dc2626;" onclick="setInkColor('#dc2626')">Đỏ</button>
+              </div>
+              <button class="btn-tool" onclick="clearSignatureCanvas()">Xóa Ký Lại</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Con dấu đỏ CPG -->
+        <div id="tabContentSeal" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Mẫu con dấu doanh nghiệp tròn đỏ CPG:</label>
+            <div class="watermark-preview-wrap" style="height:200px;">
+              <canvas id="sealCanvas" width="200" height="200"></canvas>
+            </div>
+            <div style="font-size:11px; color:#94a3b8; text-align:center; margin-top:6px;">
+              Con dấu chuẩn pháp lý: CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG - BAN TỔNG GIÁM ĐỐC - ĐÃ PHÊ DUYỆT
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool" onclick="closeModal('modalSign')" data-i18n="cancel">Hủy Bỏ</button>
+        <button class="btn-tool primary" onclick="exportSignaturePng()">
+          <span>💾</span> <span data-i18n="exportSignature">Xuất Ảnh PNG Trong Suốt (Dán Vào PDF)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 3: GHÉP FILE PDF (MERGE) ================= -->
+  <div class="modal-backdrop" id="modalMerge">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>📑</span> <span data-i18n="modalMergeTitle">Gộp Nhiều File PDF (Merge PDFs)</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalMerge')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" data-i18n="selectMergeFiles">Chọn 2 hoặc nhiều tệp PDF cần ghép lại:</label>
+          <input type="file" id="mergeFileInput" multiple accept=".pdf" class="form-input" onchange="handleMergeFilesSelected(this.files)" />
+        </div>
+
+        <div id="mergeListContainer" style="border:1px solid #334155; border-radius:8px; min-height:100px; max-height:200px; overflow-y:auto; padding:8px; background:#0f172a; font-size:12px;">
+          <div style="color:#64748b; text-align:center; padding:30px;" data-i18n="noMergeFiles">Chưa có file nào được chọn. Hãy bấm nút Chọn file ở trên.</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool" onclick="closeModal('modalMerge')" data-i18n="cancel">Hủy Bỏ</button>
+        <button class="btn-tool primary" id="btnExecuteMerge" onclick="executeMergePdfs()" disabled>
+          <span>📑</span> <span data-i18n="executeMerge">Gộp File & Mở Trong Editor</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 4: TÁCH TRANG (SPLIT) ================= -->
+  <div class="modal-backdrop" id="modalSplit">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>✂️</span> <span data-i18n="modalSplitTitle">Tách Trang & Trích Xuất PDF (Split)</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalSplit')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" data-i18n="splitPagesLabel">Nhập các trang muốn trích xuất (Ví dụ: 1-3, 5, 8-10):</label>
+          <input type="text" class="form-input" id="splitPagesInput" placeholder="Ví dụ: 1-3 hoặc 1, 4, 6" />
+        </div>
+        <div style="font-size:12px; color:#94a3b8; line-height:1.5;">
+          💡 <i>Gợi ý:</i> Bạn cũng có thể mở bảng công cụ <b>Organize pages</b> trực tiếp trong Editor bên dưới để xem toàn bộ thumbnail từng trang và xoay, xóa, kéo thả sắp xếp trang trực quan!
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool" onclick="closeModal('modalSplit')" data-i18n="cancel">Hủy Bỏ</button>
+        <button class="btn-tool primary" onclick="executeSplitPdfs()">
+          <span>✂️</span> <span data-i18n="executeSplit">Trích Xuất & Mở Ngay</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 5: BẢN PORTABLE WINDOWS ================= -->
+  <div class="modal-backdrop" id="modalPortable">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>💻</span> <span data-i18n="modalPortableTitle">Bản Portable Desktop Dành Cho Windows</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalPortable')">&times;</button>
+      </div>
+
+      <div class="modal-body" style="font-size:13px; line-height:1.6; color:#cbd5e1;">
+        <p>Hệ thống CPG PDF Studio cung cấp 2 phương thức sử dụng linh hoạt:</p>
+        <div style="background:#0f172a; padding:12px; border-radius:8px; border:1px solid #1e293b; margin-bottom:12px;">
+          <b style="color:#60a5fa;">1. Bản Web Trực Tuyến / Cục Bộ (Vercel & Local):</b>
+          <div>Chạy trên mọi trình duyệt hiện đại (Chrome, Edge, Firefox) thông qua WebAssembly, hoàn toàn bảo mật cục bộ, không gửi dữ liệu ra ngoài.</div>
+        </div>
+        <div style="background:#0f172a; padding:12px; border-radius:8px; border:1px solid #1e293b;">
+          <b style="color:#34d399;">2. Bản Native Executable (.exe) Portable:</b>
+          <div>Được viết bằng Rust thuần túy, đặt trong thư mục <code>portable/pdfcraft-0.6.0-windows-x64-portable/pdfcraft.exe</code>. Không cần cài đặt, chỉ cần click file <code>Start-CPG-PDF-Native.bat</code> là mở ngay lập tức!</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool primary" onclick="closeModal('modalPortable')">Đã Hiểu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 6: PHÍM TẮT & TRỢ GIÚP ================= -->
+  <div class="modal-backdrop" id="modalHelp">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>ℹ️</span> <span data-i18n="modalHelpTitle">Phím Tắt & Tính Năng Chuyên Nghiệp</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalHelp')">&times;</button>
+      </div>
+
+      <div class="modal-body" style="font-size:12px; line-height:1.6; color:#cbd5e1;">
+        <table style="width:100%; border-collapse:collapse;">
+          <tr style="border-bottom:1px solid #334155; text-align:left;">
+            <th style="padding:6px;">Phím Tắt</th>
+            <th style="padding:6px;">Chức Năng</th>
+          </tr>
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:6px;"><kbd>Ctrl + K</kbd></td>
+            <td style="padding:6px;">Mở Command Palette (Toàn bộ công cụ chỉnh sửa)</td>
+          </tr>
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:6px;"><kbd>Ctrl + O</kbd></td>
+            <td style="padding:6px;">Mở tệp PDF mới</td>
+          </tr>
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:6px;"><kbd>Ctrl + S</kbd></td>
+            <td style="padding:6px;">Lưu và tải về tài liệu đã biên tập</td>
+          </tr>
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:6px;"><kbd>Ctrl + Z / Ctrl + Y</kbd></td>
+            <td style="padding:6px;">Hoàn tác (Undo) và Làm lại (Redo) không giới hạn</td>
+          </tr>
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:6px;"><kbd>Ctrl + F</kbd></td>
+            <td style="padding:6px;">Tìm kiếm từ khóa trong tài liệu</td>
+          </tr>
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:6px;"><kbd>Alt + Drag</kbd></td>
+            <td style="padding:6px;">Chọn văn bản theo cột (Column Select)</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool primary" onclick="closeModal('modalHelp')">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-box" id="toastBox">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">Thông báo</span>
+  </div>
+
+  <!-- ================= LOGIC JAVASCRIPT ================= -->
+  <script>
+    // State
+    let currentFileName = "CPG_Document.pdf";
+    let currentFileBytes = null;
+    let isDirty = false;
+    let currentLanguage = "vi";
+    let editorReady = false;
+
+    const editorFrame = document.getElementById("editorFrame");
+    const filePicker = document.getElementById("filePicker");
+    const statusDot = document.getElementById("statusDot");
+    const statusText = document.getElementById("statusText");
+    const currentDocLabel = document.getElementById("currentDocLabel");
+
+    // Translations Dictionary
+    const i18n = {
+      vi: {
+        tagline: "Hệ Thống Biên Tập & Ký Số PDF · CPG Corp",
+        open: "Mở PDF",
+        save: "Lưu PDF",
+        stampWatermark: "Đóng Dấu CPG",
+        digitalSign: "Ký Số & Con Dấu",
+        merge: "Ghép File",
+        split: "Tách Trang",
+        portable: "Bản Portable",
+        help: "Trợ Giúp",
+        readyEngine: "WebAssembly Engine: Sẵn sàng",
+        dirtyEngine: "Có thay đổi chưa lưu (Nhấn Lưu PDF)",
+        docLabel: "Tài liệu:",
+        quickStamp: "Gắn dấu nhanh:",
+        dropTitle: "Thả file PDF vào đây để mở",
+        dropDesc: "Tệp tin được xử lý an toàn 100% cục bộ trên trình duyệt của bạn",
+        cancel: "Hủy Bỏ",
+        applyAndOpen: "Đóng Dấu & Mở Trong Editor",
+        exportSignature: "Xuất Ảnh PNG Trong Suốt (Dán Vào PDF)",
+        executeMerge: "Gộp File & Mở Trong Editor",
+        executeSplit: "Trích Xuất & Mở Ngay"
+      },
+      en: {
+        tagline: "Enterprise PDF Editing & Signing Suite · CPG Corp",
+        open: "Open PDF",
+        save: "Save PDF",
+        stampWatermark: "CPG Stamp",
+        digitalSign: "Sign & Seal",
+        merge: "Merge Files",
+        split: "Split Pages",
+        portable: "Portable App",
+        help: "Help",
+        readyEngine: "WebAssembly Engine: Ready",
+        dirtyEngine: "Unsaved changes (Click Save PDF)",
+        docLabel: "Document:",
+        quickStamp: "Quick Stamp:",
+        dropTitle: "Drop PDF here to open",
+        dropDesc: "Files are processed 100% privately in your browser",
+        cancel: "Cancel",
+        applyAndOpen: "Apply Stamp & Open In Editor",
+        exportSignature: "Export Transparent PNG (Paste into PDF)",
+        executeMerge: "Merge & Open In Editor",
+        executeSplit: "Extract & Open Now"
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.getElementById("btnLangVi").classList.toggle("active", lang === "vi");
+      document.getElementById("btnLangEn").classList.toggle("active", lang === "en");
+      
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (i18n[lang] && i18n[lang][key]) {
+          el.innerText = i18n[lang][key];
+        }
+      });
+    }
+
+    document.getElementById("btnLangVi").onclick = () => setLanguage("vi");
+    document.getElementById("btnLangEn").onclick = () => setLanguage("en");
+
+    // Toast utility
+    function showToast(msg, icon = "✅") {
+      const box = document.getElementById("toastBox");
+      document.getElementById("toastMsg").innerText = msg;
+      document.getElementById("toastIcon").innerText = icon;
+      box.style.display = "flex";
+      setTimeout(() => { box.style.display = "none"; }, 3500);
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      document.getElementById(id).classList.add("open");
+      if (id === "modalWatermark") renderWmSample();
+      if (id === "modalSign") initSignatureCanvas();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+    }
+
+    document.getElementById("btnWatermarkModal").onclick = () => openModal("modalWatermark");
+    document.getElementById("btnSignModal").onclick = () => openModal("modalSign");
+    document.getElementById("btnMergeModal").onclick = () => openModal("modalMerge");
+    document.getElementById("btnSplitModal").onclick = () => openModal("modalSplit");
+    document.getElementById("btnPortableInfo").onclick = () => openModal("modalPortable");
+    document.getElementById("btnHelp").onclick = () => openModal("modalHelp");
+
+    // Fullscreen toggle
+    document.getElementById("btnFullscreen").onclick = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        document.getElementById("fsIcon").innerText = "🗕";
+      } else {
+        document.exitFullscreen();
+        document.getElementById("fsIcon").innerText = "⛶";
+      }
+    };
+
+    // Open file action
+    document.getElementById("btnOpen").onclick = () => filePicker.click();
+    filePicker.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) loadPdfFile(file);
+    };
+
+    function loadPdfFile(file) {
+      currentFileName = file.name;
+      currentDocLabel.innerText = file.name;
+      const reader = new FileReader();
+      reader.onload = () => {
+        currentFileBytes = reader.result;
+        sendPdfToEditor(file.name, currentFileBytes);
+        showToast("Đã tải tài liệu: " + file.name, "📂");
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function sendPdfToEditor(name, arrayBuffer) {
+      if (editorFrame && editorFrame.contentWindow) {
+        editorFrame.contentWindow.postMessage({
+          type: "pdfcraft:open",
+          name: name,
+          bytes: arrayBuffer
+        }, "*");
+      }
+    }
+
+    // Save action
+    document.getElementById("btnSave").onclick = () => {
+      // In host mode, Ctrl+S or triggering save inside editor sends pdfcraft:save to parent
+      showToast("Đang chuẩn bị lưu tệp...", "💾");
+      // Forward save command to iframe if needed
+      editorFrame.contentWindow.postMessage({ type: "pdfcraft:trigger_save" }, "*");
+    };
+
+    // Listen for messages from PdfCraft iframe bridge
+    window.addEventListener("message", (event) => {
+      const data = event.data;
+      if (!data || typeof data !== "object") return;
+
+      if (data.type === "pdfcraft:ready") {
+        editorReady = true;
+        statusDot.className = "status-dot";
+        statusText.innerText = currentLanguage === "vi" ? "WebAssembly Engine: Sẵn sàng" : "WebAssembly Engine: Ready";
+        // If we had a pre-loaded PDF, send it
+        if (currentFileBytes) {
+          sendPdfToEditor(currentFileName, currentFileBytes);
+        }
+      }
+
+      if (data.type === "pdfcraft:dirty") {
+        isDirty = data.dirty;
+        statusDot.className = isDirty ? "status-dot dirty" : "status-dot";
+        statusText.innerText = isDirty
+          ? (currentLanguage === "vi" ? "Có thay đổi chưa lưu (Nhấn Lưu PDF)" : "Unsaved changes")
+          : (currentLanguage === "vi" ? "Đã lưu toàn bộ" : "All changes saved");
+      }
+
+      if (data.type === "pdfcraft:save") {
+        currentFileBytes = data.bytes;
+        const blob = new Blob([data.bytes], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = data.name || currentFileName || "CPG_Document.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("Đã lưu thành công: " + (data.name || currentFileName), "✅");
+      }
+    });
+
+    // Drag & Drop handlers
+    const dropZone = document.getElementById("dropZone");
+    const dragOverlay = document.getElementById("dragOverlay");
+
+    window.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dragOverlay.classList.add("active");
+    });
+
+    dragOverlay.addEventListener("dragleave", (e) => {
+      e.preventDefault();
+      dragOverlay.classList.remove("active");
+    });
+
+    dragOverlay.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dragOverlay.classList.remove("active");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const file = e.dataTransfer.files[0];
+        if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
+          loadPdfFile(file);
+        } else {
+          showToast("Vui lòng chọn đúng tệp tin định dạng PDF!", "⚠️");
+        }
+      }
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "o") {
+        e.preventDefault();
+        filePicker.click();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+        e.preventDefault();
+        document.getElementById("btnSave").click();
+      }
+    });
+
+    // ================= WATERMARK ENGINE (PDF-LIB) =================
+    function onWmPresetChange() {
+      const sel = document.getElementById("wmPresetSelect").value;
+      if (sel !== "CUSTOM") {
+        document.getElementById("wmTextInput").value = sel;
+      }
+      renderWmSample();
+    }
+
+    function renderWmSample() {
+      const canvas = document.getElementById("wmCanvas");
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      const text = document.getElementById("wmTextInput").value || "CPG CONFIDENTIAL";
+      const colorKey = document.getElementById("wmColorSelect").value;
+      const angle = parseInt(document.getElementById("wmAngleSelect").value);
+      const opacity = parseInt(document.getElementById("wmOpacityRange").value) / 100;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Draw paper background
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+
+      // Draw faint sample document text lines
+      ctx.fillStyle = "#f1f5f9";
+      for (let y = 15; y < h; y += 14) {
+        ctx.fillRect(20, y, w - 40, 6);
+      }
+
+      // Draw watermark
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+      ctx.rotate((angle * Math.PI) / 180);
+
+      let color = "rgba(220, 38, 38, " + opacity + ")";
+      if (colorKey === "gray") color = "rgba(71, 85, 105, " + opacity + ")";
+      if (colorKey === "blue") color = "rgba(30, 64, 175, " + opacity + ")";
+      if (colorKey === "black") color = "rgba(17, 24, 39, " + opacity + ")";
+
+      ctx.font = "bold 18px sans-serif";
+      ctx.fillStyle = color;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, 0, 0);
+
+      // Subtitle
+      ctx.font = "9px sans-serif";
+      ctx.fillText("CPG REAL ESTATE & INVESTMENT GROUP · OFFICIAL STAMP", 0, 18);
+      ctx.restore();
+    }
+
+    async function applyWatermarkToDocument() {
+      if (!currentFileBytes) {
+        showToast("Vui lòng mở một file PDF trước khi đóng dấu!", "⚠️");
+        closeModal("modalWatermark");
+        return;
+      }
+
+      try {
+        showToast("Đang đóng dấu bảo mật CPG lên các trang...", "⏳");
+        const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
+        const pdfDoc = await PDFDocument.load(currentFileBytes);
+        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        const pages = pdfDoc.getPages();
+
+        const text = document.getElementById("wmTextInput").value || "CPG CONFIDENTIAL";
+        const colorKey = document.getElementById("wmColorSelect").value;
+        const angle = parseInt(document.getElementById("wmAngleSelect").value);
+        const opacity = parseInt(document.getElementById("wmOpacityRange").value) / 100;
+        const fontSize = parseInt(document.getElementById("wmSizeRange").value);
+
+        let color = rgb(0.86, 0.15, 0.15); // red
+        if (colorKey === "gray") color = rgb(0.35, 0.4, 0.45);
+        if (colorKey === "blue") color = rgb(0.12, 0.35, 0.75);
+        if (colorKey === "black") color = rgb(0.1, 0.1, 0.1);
+
+        for (const page of pages) {
+          const { width, height } = page.getSize();
+          const textWidth = font.widthOfTextAtSize(text, fontSize);
+          page.drawText(text, {
+            x: width / 2 - (textWidth / 2) * Math.cos((angle * Math.PI) / 180),
+            y: height / 2,
+            size: fontSize,
+            font: font,
+            color: color,
+            opacity: opacity,
+            rotate: degrees(angle)
+          });
+        }
+
+        const newPdfBytes = await pdfDoc.save();
+        currentFileBytes = newPdfBytes;
+        sendPdfToEditor(currentFileName, newPdfBytes);
+        closeModal("modalWatermark");
+        showToast("Đã đóng dấu CPG thành công trên " + pages.length + " trang!", "✅");
+      } catch (err) {
+        console.error(err);
+        showToast("Lỗi khi đóng dấu: " + err.message, "❌");
+      }
+    }
+
+    async function quickApplyStamp(presetText) {
+      if (!currentFileBytes) {
+        showToast("Vui lòng mở một file PDF trước khi đóng dấu!", "⚠️");
+        filePicker.click();
+        return;
+      }
+      document.getElementById("wmTextInput").value = presetText;
+      applyWatermarkToDocument();
+    }
+
+    // ================= SIGNATURE & SEAL ENGINE =================
+    let sigCanvas, sigCtx, isDrawing = false, inkColor = "#1e40af";
+
+    function initSignatureCanvas() {
+      sigCanvas = document.getElementById("sigCanvas");
+      sigCtx = sigCanvas.getContext("2d");
+      sigCtx.lineWidth = 2.5;
+      sigCtx.lineCap = "round";
+      sigCtx.lineJoin = "round";
+      sigCtx.strokeStyle = inkColor;
+
+      sigCanvas.onmousedown = (e) => {
+        isDrawing = true;
+        sigCtx.beginPath();
+        sigCtx.moveTo(e.offsetX, e.offsetY);
+      };
+
+      sigCanvas.onmousemove = (e) => {
+        if (!isDrawing) return;
+        sigCtx.lineTo(e.offsetX, e.offsetY);
+        sigCtx.stroke();
+      };
+
+      window.onmouseup = () => { isDrawing = false; };
+
+      // Render default seal preview
+      renderSealPreview();
+    }
+
+    function setInkColor(c) {
+      inkColor = c;
+      if (sigCtx) sigCtx.strokeStyle = inkColor;
+    }
+
+    function clearSignatureCanvas() {
+      if (sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+    }
+
+    function switchSignTab(tab) {
+      document.getElementById("tabBtnPad").classList.toggle("primary", tab === "pad");
+      document.getElementById("tabBtnSeal").classList.toggle("primary", tab === "seal");
+      document.getElementById("tabContentPad").style.display = tab === "pad" ? "block" : "none";
+      document.getElementById("tabContentSeal").style.display = tab === "seal" ? "block" : "none";
+      if (tab === "seal") renderSealPreview();
+    }
+
+    function renderSealPreview() {
+      const c = document.getElementById("sealCanvas");
+      const ctx = c.getContext("2d");
+      const cx = c.width / 2;
+      const cy = c.height / 2;
+      const r = 85;
+
+      ctx.clearRect(0, 0, c.width, c.height);
+
+      // Red outer circle
+      ctx.strokeStyle = "#dc2626";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Inner faint circle
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r - 7, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Star in center
+      ctx.fillStyle = "#dc2626";
+      ctx.font = "bold 26px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("★", cx, cy - 8);
+
+      // Text inside
+      ctx.font = "bold 11px sans-serif";
+      ctx.fillText("TẬP ĐOÀN CPG", cx, cy + 18);
+      ctx.font = "bold 9px sans-serif";
+      ctx.fillText("ĐÃ PHÊ DUYỆT", cx, cy + 32);
+
+      // Circular text CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG
+      ctx.save();
+      ctx.font = "bold 10px sans-serif";
+      const txt = "CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG · ";
+      for (let i = 0; i < txt.length; i++) {
+        const char = txt[i];
+        const theta = -Math.PI * 0.8 + (i * (Math.PI * 1.6) / txt.length);
+        ctx.save();
+        ctx.translate(cx + Math.cos(theta) * (r - 18), cy + Math.sin(theta) * (r - 18));
+        ctx.rotate(theta + Math.PI / 2);
+        ctx.fillText(char, 0, 0);
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    function exportSignaturePng() {
+      const isPad = document.getElementById("tabContentPad").style.display !== "none";
+      const targetCanvas = isPad ? sigCanvas : document.getElementById("sealCanvas");
+      const dataUrl = targetCanvas.toDataURL("image/png");
+
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = isPad ? "CPG_Signature.png" : "CPG_Official_Seal.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      closeModal("modalSign");
+      showToast("Đã tải ảnh con dấu/chữ ký PNG trong suốt! Bạn có thể dán vào file PDF.", "✍️");
+    }
+
+    // ================= MERGE ENGINE (PDF-LIB) =================
+    let mergeFilesArray = [];
+
+    function handleMergeFilesSelected(files) {
+      mergeFilesArray = Array.from(files);
+      const container = document.getElementById("mergeListContainer");
+      if (mergeFilesArray.length < 2) {
+        container.innerHTML = '<div style="color:#f59e0b; padding:10px;">Vui lòng chọn từ 2 file PDF trở lên để ghép.</div>';
+        document.getElementById("btnExecuteMerge").disabled = true;
+        return;
+      }
+
+      container.innerHTML = mergeFilesArray.map((f, i) => `
+        <div style="display:flex; justify-content:space-between; padding:6px 10px; background:#162032; margin-bottom:4px; border-radius:4px;">
+          <span>${i + 1}. <b>${f.name}</b> (${Math.round(f.size / 1024)} KB)</span>
+          <span style="color:#60a5fa;">Sẵn sàng</span>
+        </div>
+      `).join("");
+
+      document.getElementById("btnExecuteMerge").disabled = false;
+    }
+
+    async function executeMergePdfs() {
+      if (mergeFilesArray.length < 2) return;
+      try {
+        showToast("Đang tiến hành gộp các file PDF...", "⏳");
+        const { PDFDocument } = PDFLib;
+        const mergedDoc = await PDFDocument.create();
+
+        for (const file of mergeFilesArray) {
+          const bytes = await file.arrayBuffer();
+          const doc = await PDFDocument.load(bytes);
+          const copiedPages = await mergedDoc.copyPages(doc, doc.getPageIndices());
+          copiedPages.forEach((p) => mergedDoc.addPage(p));
+        }
+
+        const mergedBytes = await mergedDoc.save();
+        currentFileName = "CPG_Merged_Document.pdf";
+        currentFileBytes = mergedBytes;
+        currentDocLabel.innerText = currentFileName;
+        sendPdfToEditor(currentFileName, mergedBytes);
+        closeModal("modalMerge");
+        showToast("Đã gộp " + mergeFilesArray.length + " file PDF thành công!", "✅");
+      } catch (err) {
+        console.error(err);
+        showToast("Lỗi gộp file: " + err.message, "❌");
+      }
+    }
+
+    // ================= SPLIT ENGINE (PDF-LIB) =================
+    async function executeSplitPdfs() {
+      if (!currentFileBytes) {
+        showToast("Vui lòng mở một file PDF trước khi trích xuất!", "⚠️");
+        closeModal("modalSplit");
+        return;
+      }
+
+      const input = document.getElementById("splitPagesInput").value.trim();
+      if (!input) {
+        showToast("Vui lòng nhập khoảng trang cần trích xuất!", "⚠️");
+        return;
+      }
+
+      try {
+        showToast("Đang trích xuất trang...", "⏳");
+        const { PDFDocument } = PDFLib;
+        const srcDoc = await PDFDocument.load(currentFileBytes);
+        const totalPages = srcDoc.getPageCount();
+
+        // Parse pages like "1-3, 5" (1-indexed)
+        const targetIndices = [];
+        const parts = input.split(",");
+        for (let part of parts) {
+          part = part.trim();
+          if (part.includes("-")) {
+            const [start, end] = part.split("-").map(n => parseInt(n.trim()));
+            for (let i = start; i <= end; i++) {
+              if (i >= 1 && i <= totalPages) targetIndices.push(i - 1);
+            }
+          } else {
+            const n = parseInt(part);
+            if (n >= 1 && n <= totalPages) targetIndices.push(n - 1);
+          }
+        }
+
+        if (targetIndices.length === 0) {
+          showToast("Không tìm thấy trang hợp lệ trong khoảng yêu cầu!", "⚠️");
+          return;
+        }
+
+        const newDoc = await PDFDocument.create();
+        const pages = await newDoc.copyPages(srcDoc, targetIndices);
+        pages.forEach(p => newDoc.addPage(p));
+
+        const splitBytes = await newDoc.save();
+        currentFileName = "CPG_Extracted_Pages.pdf";
+        currentFileBytes = splitBytes;
+        currentDocLabel.innerText = currentFileName;
+        sendPdfToEditor(currentFileName, splitBytes);
+        closeModal("modalSplit");
+        showToast("Đã trích xuất " + pages.length + " trang thành công!", "✅");
+      } catch (err) {
+        console.error(err);
+        showToast("Lỗi trích xuất: " + err.message, "❌");
+      }
+    }
+
+    // Initialize watermark sample on load
+    window.addEventListener("DOMContentLoaded", () => {
+      renderWmSample();
+    });
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CPG PDF Studio - Giải Pháp Biên Tập & Ký Số PDF Doanh Nghiệp</title>
-  <meta name="description" content="Hệ thống biên tập, bảo mật, đóng dấu bản quyền và ký số tài liệu PDF chuyên nghiệp dành cho Tập đoàn CPG." />
+  <meta name="description" content="Hệ thống biên tập, bảo mật, đóng dấu bản quyền và ký số tài liệu PDF chuyên nghiệp dành cho Tập đoàn CPG với phong cách Glassmorphism hiện đại." />
   <link rel="icon" type="image/png" href="images/cpg_logo_white_opt.png" />
   
   <!-- Offline PDF manipulation engine -->
@@ -12,20 +12,27 @@
 
   <style>
     :root {
-      --bg-dark: #0b0f17;
-      --header-bg: #111827;
-      --header-border: #1f2937;
-      --header-text: #f9fafb;
-      --header-muted: #9ca3af;
+      --bg-base: #070a12;
+      --glass-header: rgba(13, 19, 33, 0.78);
+      --glass-card: rgba(17, 25, 44, 0.72);
+      --glass-card-hover: rgba(26, 38, 66, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-hover: rgba(255, 255, 255, 0.24);
+      --glass-inner: rgba(255, 255, 255, 0.04);
       --accent-blue: #2563eb;
-      --accent-blue-hover: #1d4ed8;
+      --accent-blue-light: #3b82f6;
       --accent-gold: #f59e0b;
+      --accent-gold-glow: rgba(245, 158, 11, 0.25);
       --accent-red: #ef4444;
       --accent-green: #10b981;
-      --panel-bg: #1f2937;
-      --panel-border: #374151;
-      --card-bg: #162032;
-      --input-bg: #0f172a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-faint: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
     }
 
     * { box-sizing: border-box; }
@@ -35,50 +42,61 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--header-text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.18) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.12) 0%, transparent 40%),
+                  radial-gradient(circle at 50% 90%, rgba(30, 41, 59, 0.4) 0%, transparent 55%),
+                  #070a12;
+      color: var(--text-main);
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ================= CPG CORPORATE HEADER ================= */
+    /* ================= GLASS FILM FLOATING HEADER ================= */
     .cpg-header {
-      height: 52px;
-      background: linear-gradient(180deg, #131c2e 0%, #0c121e 100%);
-      border-bottom: 1px solid #1e293b;
+      height: 56px;
+      background: var(--glass-header);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 14px;
+      padding: 0 16px;
       z-index: 100;
       user-select: none;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
     }
 
     .brand-section {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 260px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .brand-section:hover {
+      opacity: 0.92;
     }
 
     .brand-logo-wrap {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 34px;
-      padding: 2px 6px;
+      height: 38px;
+      padding: 3px 8px;
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
     }
 
     .brand-logo-img {
-      height: 24px;
+      height: 26px;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
     }
 
     .brand-titles {
@@ -90,110 +108,119 @@
     .brand-name-row {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .brand-name {
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 800;
       letter-spacing: 0.8px;
       color: #ffffff;
       text-transform: uppercase;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     .brand-badge {
       font-size: 9px;
       font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 4px;
-      background: rgba(245, 158, 11, 0.15);
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      background: rgba(245, 158, 11, 0.18);
       color: var(--accent-gold);
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      letter-spacing: 0.5px;
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      letter-spacing: 0.6px;
+      box-shadow: 0 0 10px var(--accent-gold-glow);
     }
 
     .brand-tagline {
       font-size: 10px;
-      color: #94a3b8;
+      color: var(--text-muted);
       letter-spacing: 0.2px;
+      margin-top: 1px;
     }
 
-    /* Actions Toolbar */
+    /* Actions Toolbar Glass Buttons */
     .tools-section {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       flex-wrap: nowrap;
     }
 
     .btn-tool {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      height: 32px;
-      padding: 0 10px;
-      border-radius: 6px;
+      gap: 6px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: var(--radius-md);
       font-size: 12px;
       font-weight: 600;
       color: #e2e8f0;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .btn-tool:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.11);
       color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-1px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0,0,0,0.3);
     }
 
     .btn-tool:active {
       transform: translateY(1px);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
     }
 
     .btn-tool.primary {
-      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-      border-color: #3b82f6;
+      background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+      border-color: rgba(96, 165, 250, 0.6);
       color: #ffffff;
-      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 14px rgba(37, 99, 235, 0.45);
     }
 
     .btn-tool.primary:hover {
-      background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
+      background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 6px 18px rgba(37, 99, 235, 0.6);
     }
 
     .btn-tool.accent-stamp {
-      background: linear-gradient(180deg, rgba(220, 38, 38, 0.2) 0%, rgba(185, 28, 28, 0.25) 100%);
-      border-color: rgba(239, 68, 68, 0.45);
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.22) 0%, rgba(185, 28, 28, 0.28) 100%);
+      border-color: rgba(248, 113, 113, 0.45);
       color: #fca5a5;
     }
 
     .btn-tool.accent-stamp:hover {
-      background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+      background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
       color: #ffffff;
-      border-color: #ef4444;
+      border-color: #fca5a5;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45);
     }
 
     .btn-tool.accent-sign {
-      background: linear-gradient(180deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.22) 100%);
-      border-color: rgba(16, 185, 129, 0.4);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.25) 100%);
+      border-color: rgba(52, 211, 153, 0.45);
       color: #6ee7b7;
     }
 
     .btn-tool.accent-sign:hover {
-      background: linear-gradient(180deg, #059669 0%, #047857 100%);
+      background: linear-gradient(180deg, #10b981 0%, #047857 100%);
       color: #ffffff;
-      border-color: #10b981;
+      border-color: #6ee7b7;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.45);
     }
 
     .btn-divider {
       width: 1px;
-      height: 20px;
+      height: 22px;
       background: rgba(255, 255, 255, 0.12);
-      margin: 0 2px;
+      margin: 0 3px;
     }
 
     /* Right utilities */
@@ -205,20 +232,20 @@
 
     .lang-switcher {
       display: flex;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      padding: 2px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 3px;
     }
 
     .lang-btn {
       background: none;
       border: none;
-      color: #94a3b8;
+      color: var(--text-muted);
       font-size: 11px;
       font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -226,19 +253,22 @@
     .lang-btn.active {
       background: rgba(255, 255, 255, 0.16);
       color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
     /* Status Bar Strip */
     .status-strip {
-      height: 28px;
-      background: #090e17;
-      border-bottom: 1px solid #1a2233;
+      height: 30px;
+      background: rgba(8, 12, 22, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 14px;
+      padding: 0 16px;
       font-size: 11px;
-      color: #94a3b8;
+      color: var(--text-muted);
       user-select: none;
     }
 
@@ -251,20 +281,21 @@
     .status-indicator {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .status-dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--accent-green);
-      box-shadow: 0 0 6px var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+      transition: all 0.3s ease;
     }
 
     .status-dot.dirty {
       background: var(--accent-gold);
-      box-shadow: 0 0 6px var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-gold);
     }
 
     .doc-name-badge {
@@ -283,9 +314,9 @@
     }
 
     .quick-chip {
-      font-size: 10px;
-      padding: 1px 8px;
-      border-radius: 10px;
+      font-size: 10.5px;
+      padding: 2px 9px;
+      border-radius: var(--radius-full);
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #cbd5e1;
@@ -294,18 +325,19 @@
     }
 
     .quick-chip:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: rgba(239, 68, 68, 0.5);
+      background: rgba(239, 68, 68, 0.22);
+      border-color: rgba(239, 68, 68, 0.55);
       color: #fca5a5;
+      transform: translateY(-1px);
     }
 
-    /* ================= MAIN WORKSPACE & IFRAME ================= */
+    /* ================= MAIN WORKSPACE & GLASS HERO HUB ================= */
     .workspace-area {
       flex: 1;
       position: relative;
       width: 100%;
-      height: calc(100vh - 80px);
-      background: #19191c;
+      height: calc(100vh - 86px);
+      background: #0f172a;
       overflow: hidden;
     }
 
@@ -314,7 +346,201 @@
       height: 100%;
       border: none;
       display: block;
-      background: #19191c;
+      background: #0f172a;
+    }
+
+    /* ================= GLASS FILM HERO COMMAND CENTER ================= */
+    .glass-hub-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(15, 23, 42, 0.6) 0%, rgba(7, 10, 18, 0.88) 100%);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      padding: 24px;
+      transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease;
+    }
+
+    .glass-hub-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.98);
+      pointer-events: none;
+    }
+
+    .glass-hub-card {
+      width: 880px;
+      max-width: 95vw;
+      background: var(--glass-card);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.75), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      animation: hubCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes hubCardIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .hub-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 18px;
+    }
+
+    .hub-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hub-logo-glow {
+      height: 52px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hub-logo-glow img {
+      height: 38px;
+      width: auto;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .hub-brand-titles h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hub-brand-titles p {
+      margin: 4px 0 0 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Glass Dropzone */
+    .hub-dropzone {
+      border: 2px dashed rgba(59, 130, 246, 0.45);
+      background: rgba(255, 255, 255, 0.025);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .hub-dropzone:hover {
+      border-color: #60a5fa;
+      background: rgba(59, 130, 246, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    .hub-dropzone-icon {
+      font-size: 40px;
+      filter: drop-shadow(0 4px 10px rgba(37, 99, 235, 0.5));
+    }
+
+    .hub-dropzone-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .hub-dropzone-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 520px;
+    }
+
+    /* 4 Glass Action Cards */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .glass-action-card {
+      background: var(--glass-inner);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-action-card:hover {
+      background: var(--glass-card-hover);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .card-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .hub-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 16px;
+      font-size: 11.5px;
+      color: var(--text-faint);
     }
 
     /* Drag & drop overlay */
@@ -322,16 +548,16 @@
       position: absolute;
       inset: 0;
       background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(16px);
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 14px;
-      z-index: 50;
+      z-index: 60;
       border: 3px dashed #3b82f6;
-      border-radius: 10px;
-      margin: 12px;
+      border-radius: var(--radius-lg);
+      margin: 14px;
       pointer-events: none;
     }
 
@@ -340,22 +566,23 @@
     }
 
     .drag-drop-title {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: #ffffff;
     }
 
     .drag-drop-desc {
       font-size: 13px;
-      color: #94a3b8;
+      color: var(--text-muted);
     }
 
-    /* ================= CORPORATE MODALS ================= */
+    /* ================= CORPORATE GLASS MODALS ================= */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -367,17 +594,19 @@
     }
 
     .modal-card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      width: 620px;
+      background: var(--glass-card);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+      width: 640px;
       max-width: 95vw;
       max-height: 90vh;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes modalFadeIn {
@@ -386,54 +615,55 @@
     }
 
     .modal-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid #1f2937;
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #141d2e;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .modal-header-title {
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 700;
       color: #f8fafc;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .modal-close-btn {
       background: none;
       border: none;
-      color: #94a3b8;
-      font-size: 20px;
+      color: var(--text-muted);
+      font-size: 22px;
       cursor: pointer;
-      padding: 0 4px;
+      padding: 0 6px;
       line-height: 1;
-      border-radius: 4px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s;
     }
 
     .modal-close-btn:hover {
       color: #ffffff;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.12);
     }
 
     .modal-body {
-      padding: 20px;
+      padding: 22px 24px;
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
     .modal-footer {
-      padding: 14px 20px;
-      border-top: 1px solid #1f2937;
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 10px;
-      background: #0d121c;
+      background: rgba(0, 0, 0, 0.25);
     }
 
     .form-group {
@@ -449,18 +679,19 @@
     }
 
     .form-input, .form-select {
-      background: var(--input-bg);
-      border: 1px solid #334155;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #ffffff;
       font-size: 13px;
-      padding: 8px 12px;
-      border-radius: 6px;
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
       outline: none;
-      transition: border-color 0.15s;
+      transition: all 0.15s;
     }
 
     .form-input:focus, .form-select:focus {
       border-color: #3b82f6;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
     }
 
     .form-row {
@@ -471,8 +702,8 @@
 
     /* Watermark Preview Box */
     .watermark-preview-wrap {
-      border: 1px solid #334155;
-      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
       height: 160px;
       background: #ffffff;
       display: flex;
@@ -491,8 +722,8 @@
 
     /* Signature Canvas Pad */
     .sig-canvas-wrap {
-      border: 1px solid #334155;
-      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
       height: 180px;
       background: #ffffff;
       position: relative;
@@ -513,28 +744,30 @@
       margin-top: 8px;
     }
 
-    /* Toast Notification */
+    /* Toast Notification Glass */
     .toast-box {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: #1e293b;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       color: #ffffff;
-      border: 1px solid #3b82f6;
-      padding: 12px 18px;
-      border-radius: 8px;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      padding: 12px 20px;
+      border-radius: var(--radius-lg);
       font-size: 13px;
       display: none;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
       z-index: 500;
       animation: toastIn 0.25s ease;
     }
 
     @keyframes toastIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(12px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
   </style>
 </head>
@@ -542,8 +775,8 @@
 
   <!-- ================= TOP CORPORATE CPG HEADER ================= -->
   <header class="cpg-header">
-    <div class="brand-section">
-      <div class="brand-logo-wrap" title="Tập đoàn CPG">
+    <div class="brand-section" onclick="toggleHub(true)" title="Về trang chủ CPG PDF Studio">
+      <div class="brand-logo-wrap">
         <img class="brand-logo-img" src="images/cpg_logo_white_opt.png" alt="CPG Logo" />
       </div>
       <div class="brand-titles">
@@ -555,7 +788,7 @@
       </div>
     </div>
 
-    <!-- Action Toolbar -->
+    <!-- Action Toolbar Glass Buttons -->
     <div class="tools-section">
       <button class="btn-tool primary" id="btnOpen" title="Mở file PDF từ máy tính (Ctrl+O)">
         <span>📁</span> <span data-i18n="open">Mở PDF</span>
@@ -584,6 +817,10 @@
       </button>
 
       <div class="btn-divider"></div>
+
+      <button class="btn-tool" id="btnHubToggle" onclick="toggleHub()" title="Đóng/Mở Bàn làm việc trung tâm">
+        <span>🧭</span> <span data-i18n="hubBtn">Hub CPG</span>
+      </button>
 
       <button class="btn-tool" id="btnPortableInfo" title="Hướng dẫn sử dụng bản Desktop Portable trên Windows">
         <span>💻</span> <span data-i18n="portable">Bản Portable</span>
@@ -631,13 +868,79 @@
   <!-- Hidden File Input -->
   <input type="file" id="filePicker" accept=".pdf" style="display:none;" />
 
-  <!-- ================= WORKSPACE WITH EMBEDDED EDITOR ================= -->
+  <!-- ================= WORKSPACE WITH EMBEDDED EDITOR & GLASS HERO HUB ================= -->
   <main class="workspace-area" id="dropZone">
     <iframe id="editorFrame" class="editor-frame" src="./editor.html?host=parent&author=CPG%20Enterprise" allow="fullscreen; clipboard-read; clipboard-write"></iframe>
     
+    <!-- ================= GLASS FILM HERO COMMAND CENTER (OVERLAY) ================= -->
+    <div class="glass-hub-overlay" id="hubOverlay">
+      <div class="glass-hub-card">
+        <!-- Hub Header -->
+        <div class="hub-header">
+          <div class="hub-brand">
+            <div class="hub-logo-glow">
+              <img src="images/cpg_logo_white_opt.png" alt="CPG Logo" />
+            </div>
+            <div class="hub-brand-titles">
+              <h1>CPG PDF STUDIO <span class="brand-badge">ENTERPRISE</span></h1>
+              <p data-i18n="hubSubtitle">Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · Tập đoàn CPG</p>
+            </div>
+          </div>
+          <button class="btn-tool" onclick="toggleHub(false)" title="Chuyển trực tiếp sang khung làm việc Acrobat" style="font-size: 11px;">
+            <span>⚡</span> <span data-i18n="openWorkspaceDirect">Vào Bàn Làm Việc</span>
+          </button>
+        </div>
+
+        <!-- Glass Dropzone -->
+        <div class="hub-dropzone" onclick="document.getElementById('filePicker').click()">
+          <div class="hub-dropzone-icon">📄</div>
+          <div class="hub-dropzone-title" data-i18n="hubDropTitle">Kéo thả tệp PDF vào đây, hoặc nhấn để chọn file</div>
+          <div class="hub-dropzone-desc" data-i18n="hubDropDesc">
+            Hỗ trợ toàn bộ tài liệu hồ sơ dự án, hợp đồng, bản vẽ kiến trúc. Xử lý bảo mật 100% tại máy khách (WebAssembly Client-side), tuyệt đối an toàn.
+          </div>
+        </div>
+
+        <!-- 4 Glass Action Cards -->
+        <div class="hub-grid">
+          <div class="glass-action-card" onclick="openModal('modalWatermark')">
+            <div class="card-icon-wrap" style="color: #ef4444;">🏷️</div>
+            <div class="card-title" data-i18n="hubCard1Title">Đóng Dấu Bản Quyền</div>
+            <div class="card-desc" data-i18n="hubCard1Desc">Gắn dấu bảo mật CPG Confidential, Phê duyệt, Bản quyền 1 chạm toàn trang.</div>
+          </div>
+
+          <div class="glass-action-card" onclick="openModal('modalSign')">
+            <div class="card-icon-wrap" style="color: #10b981;">✍️</div>
+            <div class="card-title" data-i18n="hubCard2Title">Ký Số & Con Dấu Đỏ</div>
+            <div class="card-desc" data-i18n="hubCard2Desc">Chữ ký tay điện tử và con dấu tròn đỏ Ban Giám Đốc Tập đoàn CPG.</div>
+          </div>
+
+          <div class="glass-action-card" onclick="openModal('modalMerge')">
+            <div class="card-icon-wrap" style="color: #3b82f6;">📑</div>
+            <div class="card-title" data-i18n="hubCard3Title">Ghép Nối & Tách File</div>
+            <div class="card-desc" data-i18n="hubCard3Desc">Gộp nhiều hồ sơ PDF thành 1 tập hoặc trích xuất dải trang cụ thể.</div>
+          </div>
+
+          <div class="glass-action-card" onclick="toggleHub(false)">
+            <div class="card-icon-wrap" style="color: #f59e0b;">🛠️</div>
+            <div class="card-title" data-i18n="hubCard4Title">Biên Tập Chuyên Nghiệp</div>
+            <div class="card-desc" data-i18n="hubCard4Desc">Mở bàn làm việc: Chỉnh sửa text, ghi chú, highlight, organize trang.</div>
+          </div>
+        </div>
+
+        <!-- Hub Footer -->
+        <div class="hub-footer">
+          <span>🔒 <b>Chuẩn Doanh Nghiệp:</b> Không gửi dữ liệu lên máy chủ ngoài · Zero Telemetry · Offline First</span>
+          <span style="display: flex; gap: 14px;">
+            <a href="javascript:void(0)" onclick="openModal('modalPortable')" style="color: #60a5fa; text-decoration: none;">💻 Bản Native .exe Portable</a>
+            <a href="javascript:void(0)" onclick="openModal('modalHelp')" style="color: #94a3b8; text-decoration: none;">⌨️ Phím tắt</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
     <!-- Drag & Drop overlay -->
     <div class="drag-drop-overlay" id="dragOverlay">
-      <div style="font-size: 48px;">📄</div>
+      <div style="font-size: 52px;">📄</div>
       <div class="drag-drop-title" data-i18n="dropTitle">Thả file PDF vào đây để mở</div>
       <div class="drag-drop-desc" data-i18n="dropDesc">Tệp tin được xử lý an toàn 100% cục bộ trên trình duyệt của bạn</div>
     </div>
@@ -740,7 +1043,7 @@
       </div>
 
       <div class="modal-body">
-        <div style="display:flex; gap:10px; border-bottom:1px solid #334155; padding-bottom:8px;">
+        <div style="display:flex; gap:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
           <button class="btn-tool primary" id="tabBtnPad" onclick="switchSignTab('pad')">Ký Tay (Draw)</button>
           <button class="btn-tool" id="tabBtnSeal" onclick="switchSignTab('seal')">Con Dấu Đỏ CPG (Red Seal)</button>
         </div>
@@ -750,11 +1053,11 @@
           <div class="form-group">
             <label class="form-label" data-i18n="signPadLabel">Ký tên vào ô bên dưới bằng chuột hoặc bút cảm ứng:</label>
             <div class="sig-canvas-wrap">
-              <canvas id="sigCanvas" class="sig-canvas" width="580" height="180"></canvas>
+              <canvas id="sigCanvas" class="sig-canvas" width="590" height="180"></canvas>
             </div>
             <div class="sig-tools">
               <div style="display:flex; gap:6px; align-items:center;">
-                <span style="font-size:11px; color:#94a3b8;">Màu mực:</span>
+                <span style="font-size:11px; color:var(--text-muted);">Màu mực:</span>
                 <button class="btn-tool" style="padding:2px 8px; color:#2563eb;" onclick="setInkColor('#1e40af')">Xanh</button>
                 <button class="btn-tool" style="padding:2px 8px; color:#111827; background:#cbd5e1;" onclick="setInkColor('#111827')">Đen</button>
                 <button class="btn-tool" style="padding:2px 8px; color:#dc2626;" onclick="setInkColor('#dc2626')">Đỏ</button>
@@ -771,7 +1074,7 @@
             <div class="watermark-preview-wrap" style="height:200px;">
               <canvas id="sealCanvas" width="200" height="200"></canvas>
             </div>
-            <div style="font-size:11px; color:#94a3b8; text-align:center; margin-top:6px;">
+            <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px;">
               Con dấu chuẩn pháp lý: CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG - BAN TỔNG GIÁM ĐỐC - ĐÃ PHÊ DUYỆT
             </div>
           </div>
@@ -803,8 +1106,8 @@
           <input type="file" id="mergeFileInput" multiple accept=".pdf" class="form-input" onchange="handleMergeFilesSelected(this.files)" />
         </div>
 
-        <div id="mergeListContainer" style="border:1px solid #334155; border-radius:8px; min-height:100px; max-height:200px; overflow-y:auto; padding:8px; background:#0f172a; font-size:12px;">
-          <div style="color:#64748b; text-align:center; padding:30px;" data-i18n="noMergeFiles">Chưa có file nào được chọn. Hãy bấm nút Chọn file ở trên.</div>
+        <div id="mergeListContainer" style="border:1px solid var(--glass-border); border-radius:var(--radius-md); min-height:100px; max-height:200px; overflow-y:auto; padding:10px; background:rgba(0,0,0,0.3); font-size:12px;">
+          <div style="color:var(--text-faint); text-align:center; padding:30px;" data-i18n="noMergeFiles">Chưa có file nào được chọn. Hãy bấm nút Chọn file ở trên.</div>
         </div>
       </div>
 
@@ -832,7 +1135,7 @@
           <label class="form-label" data-i18n="splitPagesLabel">Nhập các trang muốn trích xuất (Ví dụ: 1-3, 5, 8-10):</label>
           <input type="text" class="form-input" id="splitPagesInput" placeholder="Ví dụ: 1-3 hoặc 1, 4, 6" />
         </div>
-        <div style="font-size:12px; color:#94a3b8; line-height:1.5;">
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
           💡 <i>Gợi ý:</i> Bạn cũng có thể mở bảng công cụ <b>Organize pages</b> trực tiếp trong Editor bên dưới để xem toàn bộ thumbnail từng trang và xoay, xóa, kéo thả sắp xếp trang trực quan!
         </div>
       </div>
@@ -858,11 +1161,11 @@
 
       <div class="modal-body" style="font-size:13px; line-height:1.6; color:#cbd5e1;">
         <p>Hệ thống CPG PDF Studio cung cấp 2 phương thức sử dụng linh hoạt:</p>
-        <div style="background:#0f172a; padding:12px; border-radius:8px; border:1px solid #1e293b; margin-bottom:12px;">
+        <div style="background:rgba(0,0,0,0.3); padding:14px; border-radius:var(--radius-md); border:1px solid var(--glass-border); margin-bottom:12px;">
           <b style="color:#60a5fa;">1. Bản Web Trực Tuyến / Cục Bộ (Vercel & Local):</b>
           <div>Chạy trên mọi trình duyệt hiện đại (Chrome, Edge, Firefox) thông qua WebAssembly, hoàn toàn bảo mật cục bộ, không gửi dữ liệu ra ngoài.</div>
         </div>
-        <div style="background:#0f172a; padding:12px; border-radius:8px; border:1px solid #1e293b;">
+        <div style="background:rgba(0,0,0,0.3); padding:14px; border-radius:var(--radius-md); border:1px solid var(--glass-border);">
           <b style="color:#34d399;">2. Bản Native Executable (.exe) Portable:</b>
           <div>Được viết bằng Rust thuần túy, đặt trong thư mục <code>portable/pdfcraft-0.6.0-windows-x64-portable/pdfcraft.exe</code>. Không cần cài đặt, chỉ cần click file <code>Start-CPG-PDF-Native.bat</code> là mở ngay lập tức!</div>
         </div>
@@ -886,33 +1189,33 @@
 
       <div class="modal-body" style="font-size:12px; line-height:1.6; color:#cbd5e1;">
         <table style="width:100%; border-collapse:collapse;">
-          <tr style="border-bottom:1px solid #334155; text-align:left;">
-            <th style="padding:6px;">Phím Tắt</th>
-            <th style="padding:6px;">Chức Năng</th>
+          <tr style="border-bottom:1px solid var(--glass-border); text-align:left;">
+            <th style="padding:8px;">Phím Tắt</th>
+            <th style="padding:8px;">Chức Năng</th>
           </tr>
-          <tr style="border-bottom:1px solid #1e293b;">
-            <td style="padding:6px;"><kbd>Ctrl + K</kbd></td>
-            <td style="padding:6px;">Mở Command Palette (Toàn bộ công cụ chỉnh sửa)</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + K</kbd></td>
+            <td style="padding:8px;">Mở Command Palette (Toàn bộ công cụ chỉnh sửa)</td>
           </tr>
-          <tr style="border-bottom:1px solid #1e293b;">
-            <td style="padding:6px;"><kbd>Ctrl + O</kbd></td>
-            <td style="padding:6px;">Mở tệp PDF mới</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + O</kbd></td>
+            <td style="padding:8px;">Mở tệp PDF mới</td>
           </tr>
-          <tr style="border-bottom:1px solid #1e293b;">
-            <td style="padding:6px;"><kbd>Ctrl + S</kbd></td>
-            <td style="padding:6px;">Lưu và tải về tài liệu đã biên tập</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + S</kbd></td>
+            <td style="padding:8px;">Lưu và tải về tài liệu đã biên tập</td>
           </tr>
-          <tr style="border-bottom:1px solid #1e293b;">
-            <td style="padding:6px;"><kbd>Ctrl + Z / Ctrl + Y</kbd></td>
-            <td style="padding:6px;">Hoàn tác (Undo) và Làm lại (Redo) không giới hạn</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + Z / Ctrl + Y</kbd></td>
+            <td style="padding:8px;">Hoàn tác (Undo) và Làm lại (Redo) không giới hạn</td>
           </tr>
-          <tr style="border-bottom:1px solid #1e293b;">
-            <td style="padding:6px;"><kbd>Ctrl + F</kbd></td>
-            <td style="padding:6px;">Tìm kiếm từ khóa trong tài liệu</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + F</kbd></td>
+            <td style="padding:8px;">Tìm kiếm từ khóa trong tài liệu</td>
           </tr>
-          <tr style="border-bottom:1px solid #1e293b;">
-            <td style="padding:6px;"><kbd>Alt + Drag</kbd></td>
-            <td style="padding:6px;">Chọn văn bản theo cột (Column Select)</td>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Alt + Drag</kbd></td>
+            <td style="padding:8px;">Chọn văn bản theo cột (Column Select)</td>
           </tr>
         </table>
       </div>
@@ -923,7 +1226,7 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
+  <!-- Toast Notification Glass -->
   <div class="toast-box" id="toastBox">
     <span id="toastIcon">✅</span>
     <span id="toastMsg">Thông báo</span>
@@ -943,6 +1246,7 @@
     const statusDot = document.getElementById("statusDot");
     const statusText = document.getElementById("statusText");
     const currentDocLabel = document.getElementById("currentDocLabel");
+    const hubOverlay = document.getElementById("hubOverlay");
 
     // Translations Dictionary
     const i18n = {
@@ -954,6 +1258,7 @@
         digitalSign: "Ký Số & Con Dấu",
         merge: "Ghép File",
         split: "Tách Trang",
+        hubBtn: "Hub CPG",
         portable: "Bản Portable",
         help: "Trợ Giúp",
         readyEngine: "WebAssembly Engine: Sẵn sàng",
@@ -966,7 +1271,19 @@
         applyAndOpen: "Đóng Dấu & Mở Trong Editor",
         exportSignature: "Xuất Ảnh PNG Trong Suốt (Dán Vào PDF)",
         executeMerge: "Gộp File & Mở Trong Editor",
-        executeSplit: "Trích Xuất & Mở Ngay"
+        executeSplit: "Trích Xuất & Mở Ngay",
+        hubSubtitle: "Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · Tập đoàn CPG",
+        openWorkspaceDirect: "Vào Bàn Làm Việc",
+        hubDropTitle: "Kéo thả tệp PDF vào đây, hoặc nhấn để chọn file",
+        hubDropDesc: "Hỗ trợ toàn bộ tài liệu hồ sơ dự án, hợp đồng, bản vẽ kiến trúc. Xử lý bảo mật 100% tại máy khách (WebAssembly Client-side), tuyệt đối an toàn.",
+        hubCard1Title: "Đóng Dấu Bản Quyền",
+        hubCard1Desc: "Gắn dấu bảo mật CPG Confidential, Phê duyệt, Bản quyền 1 chạm toàn trang.",
+        hubCard2Title: "Ký Số & Con Dấu Đỏ",
+        hubCard2Desc: "Chữ ký tay điện tử và con dấu tròn đỏ Ban Giám Đốc Tập đoàn CPG.",
+        hubCard3Title: "Ghép Nối & Tách File",
+        hubCard3Desc: "Gộp nhiều hồ sơ PDF thành 1 tập hoặc trích xuất dải trang cụ thể.",
+        hubCard4Title: "Biên Tập Chuyên Nghiệp",
+        hubCard4Desc: "Mở bàn làm việc: Chỉnh sửa text, ghi chú, highlight, organize trang."
       },
       en: {
         tagline: "Enterprise PDF Editing & Signing Suite · CPG Corp",
@@ -976,6 +1293,7 @@
         digitalSign: "Sign & Seal",
         merge: "Merge Files",
         split: "Split Pages",
+        hubBtn: "CPG Hub",
         portable: "Portable App",
         help: "Help",
         readyEngine: "WebAssembly Engine: Ready",
@@ -988,7 +1306,19 @@
         applyAndOpen: "Apply Stamp & Open In Editor",
         exportSignature: "Export Transparent PNG (Paste into PDF)",
         executeMerge: "Merge & Open In Editor",
-        executeSplit: "Extract & Open Now"
+        executeSplit: "Extract & Open Now",
+        hubSubtitle: "International Enterprise PDF Editing, Signing & Security System · CPG Corp",
+        openWorkspaceDirect: "Enter Workspace",
+        hubDropTitle: "Drop PDF file here, or click to browse",
+        hubDropDesc: "Supports all project files, contracts, and architectural drawings. 100% private WebAssembly processing.",
+        hubCard1Title: "Watermark Stamp",
+        hubCard1Desc: "Apply CPG Confidential, Approved, or Copyright watermark across all pages in 1 click.",
+        hubCard2Title: "Digital Sign & Seal",
+        hubCard2Desc: "Handwritten digital signature & CPG Board of Directors official red corporate seal.",
+        hubCard3Title: "Merge & Split",
+        hubCard3Desc: "Combine multiple PDF files or extract selective page ranges with zero quality loss.",
+        hubCard4Title: "Acrobat Workbench",
+        hubCard4Desc: "Open editor: edit text, comments, highlights, organize page grid, redaction."
       }
     };
 
@@ -1007,6 +1337,19 @@
 
     document.getElementById("btnLangVi").onclick = () => setLanguage("vi");
     document.getElementById("btnLangEn").onclick = () => setLanguage("en");
+
+    // Hub Visibility Toggle
+    function toggleHub(forceState) {
+      if (typeof forceState === "boolean") {
+        if (forceState) {
+          hubOverlay.classList.remove("hidden");
+        } else {
+          hubOverlay.classList.add("hidden");
+        }
+      } else {
+        hubOverlay.classList.toggle("hidden");
+      }
+    }
 
     // Toast utility
     function showToast(msg, icon = "✅") {
@@ -1060,6 +1403,7 @@
       reader.onload = () => {
         currentFileBytes = reader.result;
         sendPdfToEditor(file.name, currentFileBytes);
+        toggleHub(false); // Hide the hub and show the editor!
         showToast("Đã tải tài liệu: " + file.name, "📂");
       };
       reader.readAsArrayBuffer(file);
@@ -1077,9 +1421,7 @@
 
     // Save action
     document.getElementById("btnSave").onclick = () => {
-      // In host mode, Ctrl+S or triggering save inside editor sends pdfcraft:save to parent
       showToast("Đang chuẩn bị lưu tệp...", "💾");
-      // Forward save command to iframe if needed
       editorFrame.contentWindow.postMessage({ type: "pdfcraft:trigger_save" }, "*");
     };
 
@@ -1092,7 +1434,6 @@
         editorReady = true;
         statusDot.className = "status-dot";
         statusText.innerText = currentLanguage === "vi" ? "WebAssembly Engine: Sẵn sàng" : "WebAssembly Engine: Ready";
-        // If we had a pre-loaded PDF, send it
         if (currentFileBytes) {
           sendPdfToEditor(currentFileName, currentFileBytes);
         }
@@ -1255,6 +1596,7 @@
         const newPdfBytes = await pdfDoc.save();
         currentFileBytes = newPdfBytes;
         sendPdfToEditor(currentFileName, newPdfBytes);
+        toggleHub(false);
         closeModal("modalWatermark");
         showToast("Đã đóng dấu CPG thành công trên " + pages.length + " trang!", "✅");
       } catch (err) {
@@ -1297,8 +1639,6 @@
       };
 
       window.onmouseup = () => { isDrawing = false; };
-
-      // Render default seal preview
       renderSealPreview();
     }
 
@@ -1399,7 +1739,7 @@
       }
 
       container.innerHTML = mergeFilesArray.map((f, i) => `
-        <div style="display:flex; justify-content:space-between; padding:6px 10px; background:#162032; margin-bottom:4px; border-radius:4px;">
+        <div style="display:flex; justify-content:space-between; padding:8px 12px; background:rgba(255,255,255,0.05); margin-bottom:5px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);">
           <span>${i + 1}. <b>${f.name}</b> (${Math.round(f.size / 1024)} KB)</span>
           <span style="color:#60a5fa;">Sẵn sàng</span>
         </div>
@@ -1427,6 +1767,7 @@
         currentFileBytes = mergedBytes;
         currentDocLabel.innerText = currentFileName;
         sendPdfToEditor(currentFileName, mergedBytes);
+        toggleHub(false);
         closeModal("modalMerge");
         showToast("Đã gộp " + mergeFilesArray.length + " file PDF thành công!", "✅");
       } catch (err) {
@@ -1455,7 +1796,6 @@
         const srcDoc = await PDFDocument.load(currentFileBytes);
         const totalPages = srcDoc.getPageCount();
 
-        // Parse pages like "1-3, 5" (1-indexed)
         const targetIndices = [];
         const parts = input.split(",");
         for (let part of parts) {
@@ -1485,6 +1825,7 @@
         currentFileBytes = splitBytes;
         currentDocLabel.innerText = currentFileName;
         sendPdfToEditor(currentFileName, splitBytes);
+        toggleHub(false);
         closeModal("modalSplit");
         showToast("Đã trích xuất " + pages.length + " trang thành công!", "✅");
       } catch (err) {

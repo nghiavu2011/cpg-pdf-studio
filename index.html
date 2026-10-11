@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CPG PDF Studio - Giải Pháp Biên Tập & Ký Số PDF Doanh Nghiệp</title>
+  <title>CPG PDF Studio - Enterprise PDF Editing & Signing Suite</title>
   <meta name="description" content="Hệ thống biên tập, bảo mật, đóng dấu bản quyền và ký số tài liệu PDF chuyên nghiệp dành cho Tập đoàn CPG với phong cách Glassmorphism hiện đại." />
   <link rel="icon" type="image/png" href="images/cpg_logo_white_opt.png" />
   
@@ -600,7 +600,7 @@
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-xl);
       box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
-      width: 640px;
+      width: 650px;
       max-width: 95vw;
       max-height: 90vh;
       overflow-y: auto;
@@ -775,7 +775,7 @@
 
   <!-- ================= TOP CORPORATE CPG HEADER ================= -->
   <header class="cpg-header">
-    <div class="brand-section" onclick="toggleHub(true)" title="Về trang chủ CPG PDF Studio">
+    <div class="brand-section" onclick="toggleHub(true)" data-i18n-title="titleBrand">
       <div class="brand-logo-wrap">
         <img class="brand-logo-img" src="images/cpg_logo_white_opt.png" alt="CPG Logo" />
       </div>
@@ -790,43 +790,43 @@
 
     <!-- Action Toolbar Glass Buttons -->
     <div class="tools-section">
-      <button class="btn-tool primary" id="btnOpen" title="Mở file PDF từ máy tính (Ctrl+O)">
+      <button class="btn-tool primary" id="btnOpen" data-i18n-title="titleOpen">
         <span>📁</span> <span data-i18n="open">Mở PDF</span>
       </button>
 
-      <button class="btn-tool" id="btnSave" title="Lưu tài liệu đã sửa (Ctrl+S)">
+      <button class="btn-tool" id="btnSave" data-i18n-title="titleSave">
         <span>💾</span> <span data-i18n="save">Lưu PDF</span>
       </button>
 
       <div class="btn-divider"></div>
 
-      <button class="btn-tool accent-stamp" id="btnWatermarkModal" title="Đóng dấu bản quyền, bảo mật CPG lên tất cả các trang">
+      <button class="btn-tool accent-stamp" id="btnWatermarkModal" data-i18n-title="titleStamp">
         <span>🏷️</span> <span data-i18n="stampWatermark">Đóng Dấu CPG</span>
       </button>
 
-      <button class="btn-tool accent-sign" id="btnSignModal" title="Tạo chữ ký tay và con dấu tròn đỏ CPG">
+      <button class="btn-tool accent-sign" id="btnSignModal" data-i18n-title="titleSign">
         <span>✍️</span> <span data-i18n="digitalSign">Ký Số & Con Dấu</span>
       </button>
 
-      <button class="btn-tool" id="btnMergeModal" title="Gộp nhiều file PDF thành một tập tài liệu">
+      <button class="btn-tool" id="btnMergeModal" data-i18n-title="titleMerge">
         <span>📑</span> <span data-i18n="merge">Ghép File</span>
       </button>
 
-      <button class="btn-tool" id="btnSplitModal" title="Tách trang hoặc trích xuất trang lẻ/chẵn">
+      <button class="btn-tool" id="btnSplitModal" data-i18n-title="titleSplit">
         <span>✂️</span> <span data-i18n="split">Tách Trang</span>
       </button>
 
       <div class="btn-divider"></div>
 
-      <button class="btn-tool" id="btnHubToggle" onclick="toggleHub()" title="Đóng/Mở Bàn làm việc trung tâm">
+      <button class="btn-tool" id="btnHubToggle" onclick="toggleHub()" data-i18n-title="titleHub">
         <span>🧭</span> <span data-i18n="hubBtn">Hub CPG</span>
       </button>
 
-      <button class="btn-tool" id="btnPortableInfo" title="Hướng dẫn sử dụng bản Desktop Portable trên Windows">
+      <button class="btn-tool" id="btnPortableInfo" data-i18n-title="titlePortable">
         <span>💻</span> <span data-i18n="portable">Bản Portable</span>
       </button>
 
-      <button class="btn-tool" id="btnHelp" title="Phím tắt & Hướng dẫn sử dụng">
+      <button class="btn-tool" id="btnHelp" data-i18n-title="titleHelp">
         <span>ℹ️</span> <span data-i18n="help">Trợ Giúp</span>
       </button>
     </div>
@@ -838,7 +838,7 @@
         <button class="lang-btn" id="btnLangEn">🇺🇸 EN</button>
       </div>
 
-      <button class="btn-tool" id="btnFullscreen" title="Toàn màn hình">
+      <button class="btn-tool" id="btnFullscreen" data-i18n-title="titleFullscreen">
         <span id="fsIcon">⛶</span>
       </button>
     </div>
@@ -853,15 +853,15 @@
       </div>
       <span>|</span>
       <div>
-        <span data-i18n="docLabel">Tài liệu:</span> <span class="doc-name-badge" id="currentDocLabel">Chưa mở file nào (Kéo thả file vào đây)</span>
+        <span data-i18n="docLabel">Tài liệu:</span> <span class="doc-name-badge" id="currentDocLabel" data-i18n="docPlaceholder">Chưa mở file nào (Kéo thả file vào đây)</span>
       </div>
     </div>
 
     <div class="quick-stamp-chips">
       <span style="font-size:10px; color:#64748b;" data-i18n="quickStamp">Gắn dấu nhanh:</span>
-      <span class="quick-chip" onclick="quickApplyStamp('CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ')">+ CPG Confidential</span>
-      <span class="quick-chip" onclick="quickApplyStamp('BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP')">+ Bản Quyền CPG</span>
-      <span class="quick-chip" onclick="quickApplyStamp('ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG')">+ Phê Duyệt CPG</span>
+      <span class="quick-chip" id="chipConfidential" onclick="quickApplyStamp('CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ', 'CPG CONFIDENTIAL - INTERNAL USE ONLY')">+ CPG Confidential</span>
+      <span class="quick-chip" id="chipCopyright" onclick="quickApplyStamp('BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP', 'CPG GROUP COPYRIGHT - ALL RIGHTS RESERVED')" data-i18n="chipCopyright">+ Bản Quyền CPG</span>
+      <span class="quick-chip" id="chipApproved" onclick="quickApplyStamp('ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG', 'APPROVED - CPG BOARD OF DIRECTORS')" data-i18n="chipApproved">+ Phê Duyệt CPG</span>
     </div>
   </div>
 
@@ -886,7 +886,7 @@
               <p data-i18n="hubSubtitle">Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · Tập đoàn CPG</p>
             </div>
           </div>
-          <button class="btn-tool" onclick="toggleHub(false)" title="Chuyển trực tiếp sang khung làm việc Acrobat" style="font-size: 11px;">
+          <button class="btn-tool" onclick="toggleHub(false)" data-i18n-title="titleWorkspaceDirect" style="font-size: 11px;">
             <span>⚡</span> <span data-i18n="openWorkspaceDirect">Vào Bàn Làm Việc</span>
           </button>
         </div>
@@ -929,10 +929,10 @@
 
         <!-- Hub Footer -->
         <div class="hub-footer">
-          <span>🔒 <b>Chuẩn Doanh Nghiệp:</b> Không gửi dữ liệu lên máy chủ ngoài · Zero Telemetry · Offline First</span>
+          <span data-i18n="hubSecurityNote">🔒 <b>Chuẩn Doanh Nghiệp:</b> Không gửi dữ liệu lên máy chủ ngoài · Zero Telemetry · Offline First</span>
           <span style="display: flex; gap: 14px;">
-            <a href="javascript:void(0)" onclick="openModal('modalPortable')" style="color: #60a5fa; text-decoration: none;">💻 Bản Native .exe Portable</a>
-            <a href="javascript:void(0)" onclick="openModal('modalHelp')" style="color: #94a3b8; text-decoration: none;">⌨️ Phím tắt</a>
+            <a href="javascript:void(0)" onclick="openModal('modalPortable')" style="color: #60a5fa; text-decoration: none;" data-i18n="hubPortableLink">💻 Bản Native .exe Portable</a>
+            <a href="javascript:void(0)" onclick="openModal('modalHelp')" style="color: #94a3b8; text-decoration: none;" data-i18n="hubShortcutsLink">⌨️ Phím tắt</a>
           </span>
         </div>
       </div>
@@ -960,13 +960,13 @@
         <div class="form-group">
           <label class="form-label" data-i18n="watermarkPreset">Mẫu dấu doanh nghiệp chuẩn:</label>
           <select class="form-select" id="wmPresetSelect" onchange="onWmPresetChange()">
-            <option value="BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP">1. BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP</option>
-            <option value="CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" selected>2. CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ</option>
-            <option value="ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG">3. ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG</option>
-            <option value="DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG">4. DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG</option>
-            <option value="HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG">5. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG</option>
-            <option value="BẢN THẢO - DRAFT ONLY">6. BẢN THẢO - DRAFT ONLY</option>
-            <option value="CUSTOM">-- Tự nhập nội dung riêng --</option>
+            <option value="BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP" data-i18n="wmOpt1">1. BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP</option>
+            <option value="CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" selected data-i18n="wmOpt2">2. CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ</option>
+            <option value="ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG" data-i18n="wmOpt3">3. ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG</option>
+            <option value="DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG" data-i18n="wmOpt4">4. DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG</option>
+            <option value="HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG" data-i18n="wmOpt5">5. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG</option>
+            <option value="BẢN THẢO - DRAFT ONLY" data-i18n="wmOpt6">6. BẢN THẢO - DRAFT ONLY</option>
+            <option value="CUSTOM" data-i18n="wmOptCustom">-- Tự nhập nội dung riêng --</option>
           </select>
         </div>
 
@@ -979,19 +979,19 @@
           <div class="form-group">
             <label class="form-label" data-i18n="watermarkColor">Màu sắc dấu:</label>
             <select class="form-select" id="wmColorSelect" onchange="renderWmSample()">
-              <option value="red" selected>Đỏ Doanh Nghiệp CPG (#DC2626)</option>
-              <option value="gray">Xám Bảo Mật Mờ (#475569)</option>
-              <option value="blue">Xanh Dương CPG (#1E40AF)</option>
-              <option value="black">Đen Tiêu Chuẩn (#111827)</option>
+              <option value="red" selected data-i18n="wmColorRed">Đỏ Doanh Nghiệp CPG (#DC2626)</option>
+              <option value="gray" data-i18n="wmColorGray">Xám Bảo Mật Mờ (#475569)</option>
+              <option value="blue" data-i18n="wmColorBlue">Xanh Dương CPG (#1E40AF)</option>
+              <option value="black" data-i18n="wmColorBlack">Đen Tiêu Chuẩn (#111827)</option>
             </select>
           </div>
 
           <div class="form-group">
             <label class="form-label" data-i18n="watermarkAngle">Góc nghiêng chữ:</label>
             <select class="form-select" id="wmAngleSelect" onchange="renderWmSample()">
-              <option value="45" selected>Nghiêng 45° (Chéo trang chuẩn)</option>
-              <option value="0">Ngang 0° (Ngang giữa trang)</option>
-              <option value="-45">Nghiêng -45° (Chéo ngược)</option>
+              <option value="45" selected data-i18n="wmAngle45">Nghiêng 45° (Chéo trang chuẩn)</option>
+              <option value="0" data-i18n="wmAngle0">Ngang 0° (Ngang giữa trang)</option>
+              <option value="-45" data-i18n="wmAngleNeg45">Nghiêng -45° (Chéo ngược)</option>
             </select>
           </div>
         </div>
@@ -1044,8 +1044,8 @@
 
       <div class="modal-body">
         <div style="display:flex; gap:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-          <button class="btn-tool primary" id="tabBtnPad" onclick="switchSignTab('pad')">Ký Tay (Draw)</button>
-          <button class="btn-tool" id="tabBtnSeal" onclick="switchSignTab('seal')">Con Dấu Đỏ CPG (Red Seal)</button>
+          <button class="btn-tool primary" id="tabBtnPad" onclick="switchSignTab('pad')" data-i18n="tabDraw">Ký Tay (Draw)</button>
+          <button class="btn-tool" id="tabBtnSeal" onclick="switchSignTab('seal')" data-i18n="tabSeal">Con Dấu Đỏ CPG (Red Seal)</button>
         </div>
 
         <!-- Tab 1: Ký tay -->
@@ -1057,12 +1057,12 @@
             </div>
             <div class="sig-tools">
               <div style="display:flex; gap:6px; align-items:center;">
-                <span style="font-size:11px; color:var(--text-muted);">Màu mực:</span>
-                <button class="btn-tool" style="padding:2px 8px; color:#2563eb;" onclick="setInkColor('#1e40af')">Xanh</button>
-                <button class="btn-tool" style="padding:2px 8px; color:#111827; background:#cbd5e1;" onclick="setInkColor('#111827')">Đen</button>
-                <button class="btn-tool" style="padding:2px 8px; color:#dc2626;" onclick="setInkColor('#dc2626')">Đỏ</button>
+                <span style="font-size:11px; color:var(--text-muted);" data-i18n="inkColor">Màu mực:</span>
+                <button class="btn-tool" style="padding:2px 8px; color:#2563eb;" onclick="setInkColor('#1e40af')" data-i18n="inkBlue">Xanh</button>
+                <button class="btn-tool" style="padding:2px 8px; color:#111827; background:#cbd5e1;" onclick="setInkColor('#111827')" data-i18n="inkBlack">Đen</button>
+                <button class="btn-tool" style="padding:2px 8px; color:#dc2626;" onclick="setInkColor('#dc2626')" data-i18n="inkRed">Đỏ</button>
               </div>
-              <button class="btn-tool" onclick="clearSignatureCanvas()">Xóa Ký Lại</button>
+              <button class="btn-tool" onclick="clearSignatureCanvas()" data-i18n="clearPad">Xóa Ký Lại</button>
             </div>
           </div>
         </div>
@@ -1070,11 +1070,11 @@
         <!-- Tab 2: Con dấu đỏ CPG -->
         <div id="tabContentSeal" style="display:none;">
           <div class="form-group">
-            <label class="form-label">Mẫu con dấu doanh nghiệp tròn đỏ CPG:</label>
+            <label class="form-label" data-i18n="sealPreviewLabel">Mẫu con dấu doanh nghiệp tròn đỏ CPG:</label>
             <div class="watermark-preview-wrap" style="height:200px;">
               <canvas id="sealCanvas" width="200" height="200"></canvas>
             </div>
-            <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px;">
+            <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px;" data-i18n="sealCaption">
               Con dấu chuẩn pháp lý: CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG - BAN TỔNG GIÁM ĐỐC - ĐÃ PHÊ DUYỆT
             </div>
           </div>
@@ -1133,9 +1133,9 @@
       <div class="modal-body">
         <div class="form-group">
           <label class="form-label" data-i18n="splitPagesLabel">Nhập các trang muốn trích xuất (Ví dụ: 1-3, 5, 8-10):</label>
-          <input type="text" class="form-input" id="splitPagesInput" placeholder="Ví dụ: 1-3 hoặc 1, 4, 6" />
+          <input type="text" class="form-input" id="splitPagesInput" data-i18n-placeholder="splitPagesPlaceholder" placeholder="Ví dụ: 1-3 hoặc 1, 4, 6" />
         </div>
-        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.5;" data-i18n="splitTip">
           💡 <i>Gợi ý:</i> Bạn cũng có thể mở bảng công cụ <b>Organize pages</b> trực tiếp trong Editor bên dưới để xem toàn bộ thumbnail từng trang và xoay, xóa, kéo thả sắp xếp trang trực quan!
         </div>
       </div>
@@ -1160,19 +1160,19 @@
       </div>
 
       <div class="modal-body" style="font-size:13px; line-height:1.6; color:#cbd5e1;">
-        <p>Hệ thống CPG PDF Studio cung cấp 2 phương thức sử dụng linh hoạt:</p>
+        <p data-i18n="portableIntro">Hệ thống CPG PDF Studio cung cấp 2 phương thức sử dụng linh hoạt:</p>
         <div style="background:rgba(0,0,0,0.3); padding:14px; border-radius:var(--radius-md); border:1px solid var(--glass-border); margin-bottom:12px;">
-          <b style="color:#60a5fa;">1. Bản Web Trực Tuyến / Cục Bộ (Vercel & Local):</b>
-          <div>Chạy trên mọi trình duyệt hiện đại (Chrome, Edge, Firefox) thông qua WebAssembly, hoàn toàn bảo mật cục bộ, không gửi dữ liệu ra ngoài.</div>
+          <b style="color:#60a5fa;" data-i18n="portableWebTitle">1. Bản Web Trực Tuyến / Cục Bộ (Vercel & Local):</b>
+          <div data-i18n="portableWebDesc">Chạy trên mọi trình duyệt hiện đại (Chrome, Edge, Firefox) thông qua WebAssembly, hoàn toàn bảo mật cục bộ, không gửi dữ liệu ra ngoài.</div>
         </div>
         <div style="background:rgba(0,0,0,0.3); padding:14px; border-radius:var(--radius-md); border:1px solid var(--glass-border);">
-          <b style="color:#34d399;">2. Bản Native Executable (.exe) Portable:</b>
-          <div>Được viết bằng Rust thuần túy, đặt trong thư mục <code>portable/pdfcraft-0.6.0-windows-x64-portable/pdfcraft.exe</code>. Không cần cài đặt, chỉ cần click file <code>Start-CPG-PDF-Native.bat</code> là mở ngay lập tức!</div>
+          <b style="color:#34d399;" data-i18n="portableNativeTitle">2. Bản Native Executable (.exe) Portable:</b>
+          <div data-i18n="portableNativeDesc">Được viết bằng Rust thuần túy, đặt trong thư mục <code>portable/pdfcraft-0.6.0-windows-x64-portable/pdfcraft.exe</code>. Không cần cài đặt, chỉ cần click file <code>Start-CPG-PDF-Native.bat</code> là mở ngay lập tức!</div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn-tool primary" onclick="closeModal('modalPortable')">Đã Hiểu</button>
+        <button class="btn-tool primary" onclick="closeModal('modalPortable')" data-i18n="gotIt">Đã Hiểu</button>
       </div>
     </div>
   </div>
@@ -1190,38 +1190,38 @@
       <div class="modal-body" style="font-size:12px; line-height:1.6; color:#cbd5e1;">
         <table style="width:100%; border-collapse:collapse;">
           <tr style="border-bottom:1px solid var(--glass-border); text-align:left;">
-            <th style="padding:8px;">Phím Tắt</th>
-            <th style="padding:8px;">Chức Năng</th>
+            <th style="padding:8px;" data-i18n="helpKeyHeader">Phím Tắt</th>
+            <th style="padding:8px;" data-i18n="helpFuncHeader">Chức Năng</th>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
             <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + K</kbd></td>
-            <td style="padding:8px;">Mở Command Palette (Toàn bộ công cụ chỉnh sửa)</td>
+            <td style="padding:8px;" data-i18n="helpK">Mở Command Palette (Toàn bộ công cụ chỉnh sửa)</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
             <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + O</kbd></td>
-            <td style="padding:8px;">Mở tệp PDF mới</td>
+            <td style="padding:8px;" data-i18n="helpO">Mở tệp PDF mới</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
             <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + S</kbd></td>
-            <td style="padding:8px;">Lưu và tải về tài liệu đã biên tập</td>
+            <td style="padding:8px;" data-i18n="helpS">Lưu và tải về tài liệu đã biên tập</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
             <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + Z / Ctrl + Y</kbd></td>
-            <td style="padding:8px;">Hoàn tác (Undo) và Làm lại (Redo) không giới hạn</td>
+            <td style="padding:8px;" data-i18n="helpZ">Hoàn tác (Undo) và Làm lại (Redo) không giới hạn</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
             <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Ctrl + F</kbd></td>
-            <td style="padding:8px;">Tìm kiếm từ khóa trong tài liệu</td>
+            <td style="padding:8px;" data-i18n="helpF">Tìm kiếm từ khóa trong tài liệu</td>
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
             <td style="padding:8px;"><kbd style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">Alt + Drag</kbd></td>
-            <td style="padding:8px;">Chọn văn bản theo cột (Column Select)</td>
+            <td style="padding:8px;" data-i18n="helpAlt">Chọn văn bản theo cột (Column Select)</td>
           </tr>
         </table>
       </div>
 
       <div class="modal-footer">
-        <button class="btn-tool primary" onclick="closeModal('modalHelp')">Đóng</button>
+        <button class="btn-tool primary" onclick="closeModal('modalHelp')" data-i18n="close">Đóng</button>
       </div>
     </div>
   </div>
@@ -1232,7 +1232,7 @@
     <span id="toastMsg">Thông báo</span>
   </div>
 
-  <!-- ================= LOGIC JAVASCRIPT ================= -->
+  <!-- ================= LOGIC JAVASCRIPT & BILINGUAL DICTIONARY ================= -->
   <script>
     // State
     let currentFileName = "CPG_Document.pdf";
@@ -1248,7 +1248,7 @@
     const currentDocLabel = document.getElementById("currentDocLabel");
     const hubOverlay = document.getElementById("hubOverlay");
 
-    // Translations Dictionary
+    // Comprehensive Bilingual Translations Dictionary
     const i18n = {
       vi: {
         tagline: "Hệ Thống Biên Tập & Ký Số PDF · CPG Corp",
@@ -1263,8 +1263,12 @@
         help: "Trợ Giúp",
         readyEngine: "WebAssembly Engine: Sẵn sàng",
         dirtyEngine: "Có thay đổi chưa lưu (Nhấn Lưu PDF)",
+        savedEngine: "Đã lưu toàn bộ thay đổi",
         docLabel: "Tài liệu:",
+        docPlaceholder: "Chưa mở file nào (Kéo thả file vào đây)",
         quickStamp: "Gắn dấu nhanh:",
+        chipCopyright: "+ Bản Quyền CPG",
+        chipApproved: "+ Phê Duyệt CPG",
         dropTitle: "Thả file PDF vào đây để mở",
         dropDesc: "Tệp tin được xử lý an toàn 100% cục bộ trên trình duyệt của bạn",
         cancel: "Hủy Bỏ",
@@ -1283,7 +1287,92 @@
         hubCard3Title: "Ghép Nối & Tách File",
         hubCard3Desc: "Gộp nhiều hồ sơ PDF thành 1 tập hoặc trích xuất dải trang cụ thể.",
         hubCard4Title: "Biên Tập Chuyên Nghiệp",
-        hubCard4Desc: "Mở bàn làm việc: Chỉnh sửa text, ghi chú, highlight, organize trang."
+        hubCard4Desc: "Mở bàn làm việc: Chỉnh sửa text, ghi chú, highlight, organize trang.",
+        hubSecurityNote: "🔒 <b>Chuẩn Doanh Nghiệp:</b> Không gửi dữ liệu lên máy chủ ngoài · Zero Telemetry · Offline First",
+        hubPortableLink: "💻 Bản Native .exe Portable",
+        hubShortcutsLink: "⌨️ Phím tắt",
+
+        // Watermark Modal
+        modalWatermarkTitle: "Đóng Dấu Bản Quyền & Bảo Mật CPG",
+        watermarkPreset: "Mẫu dấu doanh nghiệp chuẩn:",
+        wmOpt1: "1. BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP",
+        wmOpt2: "2. CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ",
+        wmOpt3: "3. ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG",
+        wmOpt4: "4. DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG",
+        wmOpt5: "5. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG",
+        wmOpt6: "6. BẢN THẢO - DRAFT ONLY",
+        wmOptCustom: "-- Tự nhập nội dung riêng --",
+        watermarkText: "Nội dung chữ đóng dấu:",
+        watermarkColor: "Màu sắc dấu:",
+        wmColorRed: "Đỏ Doanh Nghiệp CPG (#DC2626)",
+        wmColorGray: "Xám Bảo Mật Mờ (#475569)",
+        wmColorBlue: "Xanh Dương CPG (#1E40AF)",
+        wmColorBlack: "Đen Tiêu Chuẩn (#111827)",
+        watermarkAngle: "Góc nghiêng chữ:",
+        wmAngle45: "Nghiêng 45° (Chéo trang chuẩn)",
+        wmAngle0: "Ngang 0° (Ngang giữa trang)",
+        wmAngleNeg45: "Nghiêng -45° (Chéo ngược)",
+        watermarkOpacity: "Độ trong suốt (Mờ nhẹ):",
+        watermarkSize: "Cỡ chữ watermark:",
+        watermarkPreview: "Mô phỏng dấu trên trang giấy A4:",
+
+        // Signature Modal
+        modalSignTitle: "Ký Số & Con Dấu Đỏ Doanh Nghiệp CPG",
+        tabDraw: "Ký Tay (Draw)",
+        tabSeal: "Con Dấu Đỏ CPG (Red Seal)",
+        signPadLabel: "Ký tên vào ô bên dưới bằng chuột hoặc bút cảm ứng:",
+        inkColor: "Màu mực:",
+        inkBlue: "Xanh",
+        inkBlack: "Đen",
+        inkRed: "Đỏ",
+        clearPad: "Xóa Ký Lại",
+        sealPreviewLabel: "Mẫu con dấu doanh nghiệp tròn đỏ CPG:",
+        sealCaption: "Con dấu chuẩn pháp lý: CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG - BAN TỔNG GIÁM ĐỐC - ĐÃ PHÊ DUYỆT",
+
+        // Merge & Split Modals
+        modalMergeTitle: "Gộp Nhiều File PDF (Merge PDFs)",
+        selectMergeFiles: "Chọn 2 hoặc nhiều tệp PDF cần ghép lại:",
+        noMergeFiles: "Chưa có file nào được chọn. Hãy bấm nút Chọn file ở trên.",
+        mergeSelectHint: "Vui lòng chọn từ 2 file PDF trở lên để ghép.",
+        modalSplitTitle: "Tách Trang & Trích Xuất PDF (Split)",
+        splitPagesLabel: "Nhập các trang muốn trích xuất (Ví dụ: 1-3, 5, 8-10):",
+        splitPagesPlaceholder: "Ví dụ: 1-3 hoặc 1, 4, 6",
+        splitTip: "💡 <i>Gợi ý:</i> Bạn cũng có thể mở bảng công cụ <b>Organize pages</b> trực tiếp trong Editor bên dưới để xem toàn bộ thumbnail từng trang và xoay, xóa, kéo thả sắp xếp trang trực quan!",
+
+        // Portable Modal
+        modalPortableTitle: "Bản Portable Desktop Dành Cho Windows",
+        portableIntro: "Hệ thống CPG PDF Studio cung cấp 2 phương thức sử dụng linh hoạt:",
+        portableWebTitle: "1. Bản Web Trực Tuyến / Cục Bộ (Vercel & Local):",
+        portableWebDesc: "Chạy trên mọi trình duyệt hiện đại (Chrome, Edge, Firefox) thông qua WebAssembly, hoàn toàn bảo mật cục bộ, không gửi dữ liệu ra ngoài.",
+        portableNativeTitle: "2. Bản Native Executable (.exe) Portable:",
+        portableNativeDesc: "Được viết bằng Rust thuần túy, đặt trong thư mục <code>portable/pdfcraft-0.6.0-windows-x64-portable/pdfcraft.exe</code>. Không cần cài đặt, chỉ cần click file <code>Start-CPG-PDF-Native.bat</code> là mở ngay lập tức!",
+        gotIt: "Đã Hiểu",
+
+        // Help Modal
+        modalHelpTitle: "Phím Tắt & Tính Năng Chuyên Nghiệp",
+        helpKeyHeader: "Phím Tắt",
+        helpFuncHeader: "Chức Năng",
+        helpK: "Mở Command Palette (Toàn bộ công cụ chỉnh sửa)",
+        helpO: "Mở tệp PDF mới",
+        helpS: "Lưu và tải về tài liệu đã biên tập",
+        helpZ: "Hoàn tác (Undo) và Làm lại (Redo) không giới hạn",
+        helpF: "Tìm kiếm từ khóa trong tài liệu",
+        helpAlt: "Chọn văn bản theo cột (Column Select)",
+        close: "Đóng",
+
+        // Tooltips
+        titleBrand: "Về trang chủ CPG PDF Studio",
+        titleOpen: "Mở file PDF từ máy tính (Ctrl+O)",
+        titleSave: "Lưu tài liệu đã sửa (Ctrl+S)",
+        titleStamp: "Đóng dấu bản quyền, bảo mật CPG lên tất cả các trang",
+        titleSign: "Tạo chữ ký tay và con dấu tròn đỏ CPG",
+        titleMerge: "Gộp nhiều file PDF thành một tập tài liệu",
+        titleSplit: "Tách trang hoặc trích xuất trang lẻ/chẵn",
+        titleHub: "Đóng/Mở Bàn làm việc trung tâm",
+        titlePortable: "Hướng dẫn sử dụng bản Desktop Portable trên Windows",
+        titleHelp: "Phím tắt & Hướng dẫn sử dụng",
+        titleFullscreen: "Toàn màn hình",
+        titleWorkspaceDirect: "Chuyển trực tiếp sang khung làm việc Acrobat"
       },
       en: {
         tagline: "Enterprise PDF Editing & Signing Suite · CPG Corp",
@@ -1298,8 +1387,12 @@
         help: "Help",
         readyEngine: "WebAssembly Engine: Ready",
         dirtyEngine: "Unsaved changes (Click Save PDF)",
+        savedEngine: "All changes saved",
         docLabel: "Document:",
+        docPlaceholder: "No document opened (Drag & drop PDF here)",
         quickStamp: "Quick Stamp:",
+        chipCopyright: "+ CPG Copyright",
+        chipApproved: "+ CPG Approved",
         dropTitle: "Drop PDF here to open",
         dropDesc: "Files are processed 100% privately in your browser",
         cancel: "Cancel",
@@ -1310,15 +1403,100 @@
         hubSubtitle: "International Enterprise PDF Editing, Signing & Security System · CPG Corp",
         openWorkspaceDirect: "Enter Workspace",
         hubDropTitle: "Drop PDF file here, or click to browse",
-        hubDropDesc: "Supports all project files, contracts, and architectural drawings. 100% private WebAssembly processing.",
+        hubDropDesc: "Supports all project dossiers, contracts, and architectural drawings. 100% private WebAssembly processing.",
         hubCard1Title: "Watermark Stamp",
-        hubCard1Desc: "Apply CPG Confidential, Approved, or Copyright watermark across all pages in 1 click.",
+        hubCard1Desc: "Apply CPG Confidential, Approved, or Copyright watermark in 1 click across all pages.",
         hubCard2Title: "Digital Sign & Seal",
         hubCard2Desc: "Handwritten digital signature & CPG Board of Directors official red corporate seal.",
         hubCard3Title: "Merge & Split",
         hubCard3Desc: "Combine multiple PDF files or extract selective page ranges with zero quality loss.",
         hubCard4Title: "Acrobat Workbench",
-        hubCard4Desc: "Open editor: edit text, comments, highlights, organize page grid, redaction."
+        hubCard4Desc: "Open editor: edit vector text, comments, highlights, organize pages, security.",
+        hubSecurityNote: "🔒 <b>Enterprise Grade:</b> Zero external data uploads · Zero Telemetry · Offline First",
+        hubPortableLink: "💻 Native .exe Portable App",
+        hubShortcutsLink: "⌨️ Shortcuts",
+
+        // Watermark Modal
+        modalWatermarkTitle: "CPG Confidentiality & Watermark Stamp",
+        watermarkPreset: "Corporate Standard Presets:",
+        wmOpt1: "1. CPG GROUP COPYRIGHT - ALL RIGHTS RESERVED",
+        wmOpt2: "2. CPG CONFIDENTIAL - INTERNAL USE ONLY",
+        wmOpt3: "3. APPROVED - CPG BOARD OF DIRECTORS",
+        wmOpt4: "4. CPG REAL ESTATE & INVESTMENT PROJECT",
+        wmOpt5: "5. CPG ARCHITECTURAL DRAWINGS & ESTIMATES",
+        wmOpt6: "6. DRAFT - UNAPPROVED VERSION",
+        wmOptCustom: "-- Custom Watermark Text --",
+        watermarkText: "Watermark Text Content:",
+        watermarkColor: "Stamp Color:",
+        wmColorRed: "CPG Corporate Red (#DC2626)",
+        wmColorGray: "Security Slate Gray (#475569)",
+        wmColorBlue: "CPG Executive Blue (#1E40AF)",
+        wmColorBlack: "Standard Black (#111827)",
+        watermarkAngle: "Text Rotation Angle:",
+        wmAngle45: "Diagonal 45° (Standard diagonal)",
+        wmAngle0: "Horizontal 0° (Center horizontal)",
+        wmAngleNeg45: "Reverse Diagonal -45°",
+        watermarkOpacity: "Transparency Opacity:",
+        watermarkSize: "Font Size:",
+        watermarkPreview: "A4 Sheet Stamp Live Preview:",
+
+        // Signature Modal
+        modalSignTitle: "CPG Digital Signature & Official Seal",
+        tabDraw: "Draw Signature",
+        tabSeal: "CPG Red Corporate Seal",
+        signPadLabel: "Sign your signature below using mouse or stylus:",
+        inkColor: "Ink Color:",
+        inkBlue: "Blue",
+        inkBlack: "Black",
+        inkRed: "Red",
+        clearPad: "Clear Pad",
+        sealPreviewLabel: "CPG Corporate Official Red Seal Preview:",
+        sealCaption: "Corporate Legal Seal: CPG GROUP JOINT STOCK COMPANY - BOARD OF DIRECTORS - APPROVED",
+
+        // Merge & Split Modals
+        modalMergeTitle: "Combine Multiple PDFs (Merge)",
+        selectMergeFiles: "Select 2 or more PDF files to merge:",
+        noMergeFiles: "No files selected. Click the browse button above.",
+        mergeSelectHint: "Please select 2 or more PDF files to combine.",
+        modalSplitTitle: "Split & Extract Pages (Split)",
+        splitPagesLabel: "Enter page numbers or ranges to extract (e.g. 1-3, 5, 8-10):",
+        splitPagesPlaceholder: "e.g. 1-3 or 1, 4, 6",
+        splitTip: "💡 <i>Tip:</i> You can also open the <b>Organize pages</b> panel directly in the Editor below to inspect all page thumbnails, rotate, delete, or reorder pages visually!",
+
+        // Portable Modal
+        modalPortableTitle: "Windows Native Portable Desktop Edition",
+        portableIntro: "CPG PDF Studio provides 2 versatile runtime options:",
+        portableWebTitle: "1. Web Online / Local Server (Vercel & Local):",
+        portableWebDesc: "Runs in any modern browser via WebAssembly, 100% private client-side execution, no data uploaded to external servers.",
+        portableNativeTitle: "2. Native Executable (.exe) Portable Edition:",
+        portableNativeDesc: "Pure Rust native x64 engine in <code>portable/pdfcraft-0.6.0-windows-x64-portable/pdfcraft.exe</code>. Zero install required; just double-click <code>Start-CPG-PDF-Native.bat</code> to launch instantly!",
+        gotIt: "Got It",
+
+        // Help Modal
+        modalHelpTitle: "Shortcuts & Professional Features",
+        helpKeyHeader: "Shortcut Key",
+        helpFuncHeader: "Function & Description",
+        helpK: "Open Command Palette (Access all editing tools)",
+        helpO: "Open new PDF document",
+        helpS: "Save and download edited document",
+        helpZ: "Unlimited Undo and Redo",
+        helpF: "Search keyword across document",
+        helpAlt: "Column text selection",
+        close: "Close",
+
+        // Tooltips
+        titleBrand: "Return to CPG PDF Studio Hub",
+        titleOpen: "Open PDF file from computer (Ctrl+O)",
+        titleSave: "Save edited document (Ctrl+S)",
+        titleStamp: "Apply CPG confidentiality & copyright watermark across all pages",
+        titleSign: "Create digital signature & CPG red corporate seal",
+        titleMerge: "Combine multiple PDF files into one dossier",
+        titleSplit: "Split pages or extract selective page ranges",
+        titleHub: "Toggle CPG Command Center Hub",
+        titlePortable: "Windows Native Portable Desktop instructions",
+        titleHelp: "Keyboard shortcuts & user guide",
+        titleFullscreen: "Toggle Fullscreen",
+        titleWorkspaceDirect: "Switch directly to Acrobat workspace"
       }
     };
 
@@ -1327,12 +1505,50 @@
       document.getElementById("btnLangVi").classList.toggle("active", lang === "vi");
       document.getElementById("btnLangEn").classList.toggle("active", lang === "en");
       
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+
+      // Update text content
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
-        if (i18n[lang] && i18n[lang][key]) {
-          el.innerText = i18n[lang][key];
+        if (i18n[lang] && i18n[lang][key] !== undefined) {
+          el.innerHTML = i18n[lang][key];
         }
       });
+
+      // Update tooltips / titles
+      document.querySelectorAll("[data-i18n-title]").forEach(el => {
+        const key = el.getAttribute("data-i18n-title");
+        if (i18n[lang] && i18n[lang][key] !== undefined) {
+          el.title = i18n[lang][key];
+        }
+      });
+
+      // Update input placeholders
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (i18n[lang] && i18n[lang][key] !== undefined) {
+          el.placeholder = i18n[lang][key];
+        }
+      });
+
+      // Document label when empty
+      if (!currentFileBytes) {
+        currentDocLabel.innerText = i18n[lang].docPlaceholder;
+      }
+
+      // Status text
+      statusText.innerText = isDirty ? i18n[lang].dirtyEngine : i18n[lang].readyEngine;
+
+      // Watermark default text update if on default
+      const wmInput = document.getElementById("wmTextInput");
+      if (wmInput.value.includes("CPG CONFIDENTIAL")) {
+        wmInput.value = lang === "vi" 
+          ? "CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" 
+          : "CPG CONFIDENTIAL - INTERNAL USE ONLY";
+      }
+
+      renderWmSample();
     }
 
     document.getElementById("btnLangVi").onclick = () => setLanguage("vi");
@@ -1403,8 +1619,8 @@
       reader.onload = () => {
         currentFileBytes = reader.result;
         sendPdfToEditor(file.name, currentFileBytes);
-        toggleHub(false); // Hide the hub and show the editor!
-        showToast("Đã tải tài liệu: " + file.name, "📂");
+        toggleHub(false);
+        showToast(currentLanguage === "vi" ? ("Đã tải tài liệu: " + file.name) : ("Loaded document: " + file.name), "📂");
       };
       reader.readAsArrayBuffer(file);
     }
@@ -1421,7 +1637,7 @@
 
     // Save action
     document.getElementById("btnSave").onclick = () => {
-      showToast("Đang chuẩn bị lưu tệp...", "💾");
+      showToast(currentLanguage === "vi" ? "Đang chuẩn bị lưu tệp..." : "Preparing to save document...", "💾");
       editorFrame.contentWindow.postMessage({ type: "pdfcraft:trigger_save" }, "*");
     };
 
@@ -1433,7 +1649,7 @@
       if (data.type === "pdfcraft:ready") {
         editorReady = true;
         statusDot.className = "status-dot";
-        statusText.innerText = currentLanguage === "vi" ? "WebAssembly Engine: Sẵn sàng" : "WebAssembly Engine: Ready";
+        statusText.innerText = i18n[currentLanguage].readyEngine;
         if (currentFileBytes) {
           sendPdfToEditor(currentFileName, currentFileBytes);
         }
@@ -1443,8 +1659,8 @@
         isDirty = data.dirty;
         statusDot.className = isDirty ? "status-dot dirty" : "status-dot";
         statusText.innerText = isDirty
-          ? (currentLanguage === "vi" ? "Có thay đổi chưa lưu (Nhấn Lưu PDF)" : "Unsaved changes")
-          : (currentLanguage === "vi" ? "Đã lưu toàn bộ" : "All changes saved");
+          ? i18n[currentLanguage].dirtyEngine
+          : i18n[currentLanguage].savedEngine;
       }
 
       if (data.type === "pdfcraft:save") {
@@ -1458,7 +1674,7 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast("Đã lưu thành công: " + (data.name || currentFileName), "✅");
+        showToast(currentLanguage === "vi" ? ("Đã lưu thành công: " + (data.name || currentFileName)) : ("Saved successfully: " + (data.name || currentFileName)), "✅");
       }
     });
 
@@ -1484,7 +1700,7 @@
         if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
           loadPdfFile(file);
         } else {
-          showToast("Vui lòng chọn đúng tệp tin định dạng PDF!", "⚠️");
+          showToast(currentLanguage === "vi" ? "Vui lòng chọn đúng tệp tin định dạng PDF!" : "Please select a valid PDF file!", "⚠️");
         }
       }
     });
@@ -1505,7 +1721,15 @@
     function onWmPresetChange() {
       const sel = document.getElementById("wmPresetSelect").value;
       if (sel !== "CUSTOM") {
-        document.getElementById("wmTextInput").value = sel;
+        const selectedOption = document.getElementById("wmPresetSelect").selectedOptions[0];
+        const dataKey = selectedOption ? selectedOption.getAttribute("data-i18n") : null;
+        if (dataKey && i18n[currentLanguage][dataKey]) {
+          // Strip the numbering "1. ", "2. ", etc. for the stamp text
+          const rawText = i18n[currentLanguage][dataKey];
+          document.getElementById("wmTextInput").value = rawText.replace(/^\d+\.\s*/, "");
+        } else {
+          document.getElementById("wmTextInput").value = sel;
+        }
       }
       renderWmSample();
     }
@@ -1515,7 +1739,7 @@
       const ctx = canvas.getContext("2d");
       const w = canvas.width;
       const h = canvas.height;
-      const text = document.getElementById("wmTextInput").value || "CPG CONFIDENTIAL";
+      const text = document.getElementById("wmTextInput").value || (currentLanguage === "vi" ? "CPG CONFIDENTIAL" : "CPG CONFIDENTIAL");
       const colorKey = document.getElementById("wmColorSelect").value;
       const angle = parseInt(document.getElementById("wmAngleSelect").value);
       const opacity = parseInt(document.getElementById("wmOpacityRange").value) / 100;
@@ -1542,7 +1766,7 @@
       if (colorKey === "blue") color = "rgba(30, 64, 175, " + opacity + ")";
       if (colorKey === "black") color = "rgba(17, 24, 39, " + opacity + ")";
 
-      ctx.font = "bold 18px sans-serif";
+      ctx.font = "bold 17px sans-serif";
       ctx.fillStyle = color;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -1550,19 +1774,19 @@
 
       // Subtitle
       ctx.font = "9px sans-serif";
-      ctx.fillText("CPG REAL ESTATE & INVESTMENT GROUP · OFFICIAL STAMP", 0, 18);
+      ctx.fillText(currentLanguage === "vi" ? "CPG REAL ESTATE & INVESTMENT GROUP · OFFICIAL STAMP" : "CPG GROUP · OFFICIAL CONFIDENTIALITY SEAL", 0, 18);
       ctx.restore();
     }
 
     async function applyWatermarkToDocument() {
       if (!currentFileBytes) {
-        showToast("Vui lòng mở một file PDF trước khi đóng dấu!", "⚠️");
+        showToast(currentLanguage === "vi" ? "Vui lòng mở một file PDF trước khi đóng dấu!" : "Please open a PDF document before applying watermark!", "⚠️");
         closeModal("modalWatermark");
         return;
       }
 
       try {
-        showToast("Đang đóng dấu bảo mật CPG lên các trang...", "⏳");
+        showToast(currentLanguage === "vi" ? "Đang đóng dấu bảo mật CPG lên các trang..." : "Applying CPG security watermark across pages...", "⏳");
         const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
         const pdfDoc = await PDFDocument.load(currentFileBytes);
         const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -1598,20 +1822,20 @@
         sendPdfToEditor(currentFileName, newPdfBytes);
         toggleHub(false);
         closeModal("modalWatermark");
-        showToast("Đã đóng dấu CPG thành công trên " + pages.length + " trang!", "✅");
+        showToast(currentLanguage === "vi" ? ("Đã đóng dấu CPG thành công trên " + pages.length + " trang!") : ("Successfully stamped " + pages.length + " pages!"), "✅");
       } catch (err) {
         console.error(err);
-        showToast("Lỗi khi đóng dấu: " + err.message, "❌");
+        showToast((currentLanguage === "vi" ? "Lỗi khi đóng dấu: " : "Stamp error: ") + err.message, "❌");
       }
     }
 
-    async function quickApplyStamp(presetText) {
+    async function quickApplyStamp(viText, enText) {
       if (!currentFileBytes) {
-        showToast("Vui lòng mở một file PDF trước khi đóng dấu!", "⚠️");
+        showToast(currentLanguage === "vi" ? "Vui lòng mở một file PDF trước khi đóng dấu!" : "Please open a PDF document before applying watermark!", "⚠️");
         filePicker.click();
         return;
       }
-      document.getElementById("wmTextInput").value = presetText;
+      document.getElementById("wmTextInput").value = currentLanguage === "vi" ? viText : enText;
       applyWatermarkToDocument();
     }
 
@@ -1690,14 +1914,14 @@
 
       // Text inside
       ctx.font = "bold 11px sans-serif";
-      ctx.fillText("TẬP ĐOÀN CPG", cx, cy + 18);
+      ctx.fillText(currentLanguage === "vi" ? "TẬP ĐOÀN CPG" : "CPG GROUP CORP", cx, cy + 18);
       ctx.font = "bold 9px sans-serif";
-      ctx.fillText("ĐÃ PHÊ DUYỆT", cx, cy + 32);
+      ctx.fillText(currentLanguage === "vi" ? "ĐÃ PHÊ DUYỆT" : "OFFICIALLY APPROVED", cx, cy + 32);
 
-      // Circular text CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG
+      // Circular text
       ctx.save();
       ctx.font = "bold 10px sans-serif";
-      const txt = "CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG · ";
+      const txt = currentLanguage === "vi" ? "CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG · " : "CPG GROUP JOINT STOCK COMPANY · ";
       for (let i = 0; i < txt.length; i++) {
         const char = txt[i];
         const theta = -Math.PI * 0.8 + (i * (Math.PI * 1.6) / txt.length);
@@ -1723,7 +1947,7 @@
       document.body.removeChild(a);
 
       closeModal("modalSign");
-      showToast("Đã tải ảnh con dấu/chữ ký PNG trong suốt! Bạn có thể dán vào file PDF.", "✍️");
+      showToast(currentLanguage === "vi" ? "Đã tải ảnh con dấu/chữ ký PNG trong suốt! Bạn có thể dán vào file PDF." : "Downloaded transparent PNG signature/seal! You can paste it into the PDF.", "✍️");
     }
 
     // ================= MERGE ENGINE (PDF-LIB) =================
@@ -1733,7 +1957,7 @@
       mergeFilesArray = Array.from(files);
       const container = document.getElementById("mergeListContainer");
       if (mergeFilesArray.length < 2) {
-        container.innerHTML = '<div style="color:#f59e0b; padding:10px;">Vui lòng chọn từ 2 file PDF trở lên để ghép.</div>';
+        container.innerHTML = '<div style="color:#f59e0b; padding:10px;">' + i18n[currentLanguage].mergeSelectHint + '</div>';
         document.getElementById("btnExecuteMerge").disabled = true;
         return;
       }
@@ -1741,7 +1965,7 @@
       container.innerHTML = mergeFilesArray.map((f, i) => `
         <div style="display:flex; justify-content:space-between; padding:8px 12px; background:rgba(255,255,255,0.05); margin-bottom:5px; border-radius:6px; border:1px solid rgba(255,255,255,0.08);">
           <span>${i + 1}. <b>${f.name}</b> (${Math.round(f.size / 1024)} KB)</span>
-          <span style="color:#60a5fa;">Sẵn sàng</span>
+          <span style="color:#60a5fa;">${currentLanguage === 'vi' ? 'Sẵn sàng' : 'Ready'}</span>
         </div>
       `).join("");
 
@@ -1751,7 +1975,7 @@
     async function executeMergePdfs() {
       if (mergeFilesArray.length < 2) return;
       try {
-        showToast("Đang tiến hành gộp các file PDF...", "⏳");
+        showToast(currentLanguage === "vi" ? "Đang tiến hành gộp các file PDF..." : "Merging PDF files...", "⏳");
         const { PDFDocument } = PDFLib;
         const mergedDoc = await PDFDocument.create();
 
@@ -1769,29 +1993,29 @@
         sendPdfToEditor(currentFileName, mergedBytes);
         toggleHub(false);
         closeModal("modalMerge");
-        showToast("Đã gộp " + mergeFilesArray.length + " file PDF thành công!", "✅");
+        showToast(currentLanguage === "vi" ? ("Đã gộp " + mergeFilesArray.length + " file PDF thành công!") : ("Successfully merged " + mergeFilesArray.length + " PDF files!"), "✅");
       } catch (err) {
         console.error(err);
-        showToast("Lỗi gộp file: " + err.message, "❌");
+        showToast((currentLanguage === "vi" ? "Lỗi gộp file: " : "Merge error: ") + err.message, "❌");
       }
     }
 
     // ================= SPLIT ENGINE (PDF-LIB) =================
     async function executeSplitPdfs() {
       if (!currentFileBytes) {
-        showToast("Vui lòng mở một file PDF trước khi trích xuất!", "⚠️");
+        showToast(currentLanguage === "vi" ? "Vui lòng mở một file PDF trước khi trích xuất!" : "Please open a PDF document before extracting pages!", "⚠️");
         closeModal("modalSplit");
         return;
       }
 
       const input = document.getElementById("splitPagesInput").value.trim();
       if (!input) {
-        showToast("Vui lòng nhập khoảng trang cần trích xuất!", "⚠️");
+        showToast(currentLanguage === "vi" ? "Vui lòng nhập khoảng trang cần trích xuất!" : "Please enter the page range to extract!", "⚠️");
         return;
       }
 
       try {
-        showToast("Đang trích xuất trang...", "⏳");
+        showToast(currentLanguage === "vi" ? "Đang trích xuất trang..." : "Extracting pages...", "⏳");
         const { PDFDocument } = PDFLib;
         const srcDoc = await PDFDocument.load(currentFileBytes);
         const totalPages = srcDoc.getPageCount();
@@ -1812,7 +2036,7 @@
         }
 
         if (targetIndices.length === 0) {
-          showToast("Không tìm thấy trang hợp lệ trong khoảng yêu cầu!", "⚠️");
+          showToast(currentLanguage === "vi" ? "Không tìm thấy trang hợp lệ trong khoảng yêu cầu!" : "No valid pages found in the requested range!", "⚠️");
           return;
         }
 
@@ -1827,10 +2051,10 @@
         sendPdfToEditor(currentFileName, splitBytes);
         toggleHub(false);
         closeModal("modalSplit");
-        showToast("Đã trích xuất " + pages.length + " trang thành công!", "✅");
+        showToast(currentLanguage === "vi" ? ("Đã trích xuất " + pages.length + " trang thành công!") : ("Successfully extracted " + pages.length + " pages!"), "✅");
       } catch (err) {
         console.error(err);
-        showToast("Lỗi trích xuất: " + err.message, "❌");
+        showToast((currentLanguage === "vi" ? "Lỗi trích xuất: " : "Extraction error: ") + err.message, "❌");
       }
     }
 

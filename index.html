@@ -545,24 +545,30 @@
 
     /* Drag & drop overlay */
     .drag-drop-overlay {
-      position: absolute;
+      position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(16px);
+      background: rgba(7, 10, 18, 0.90);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      z-index: 60;
-      border: 3px dashed #3b82f6;
-      border-radius: var(--radius-lg);
-      margin: 14px;
+      gap: 16px;
+      z-index: 99999;
+      border: 3px dashed var(--accent-blue-light);
+      margin: 0;
       pointer-events: none;
+      transition: background 0.2s ease;
     }
 
     .drag-drop-overlay.active {
       display: flex;
+      pointer-events: auto !important;
+    }
+
+    .drag-drop-overlay * {
+      pointer-events: none;
     }
 
     .drag-drop-title {
@@ -1625,12 +1631,19 @@
       reader.readAsArrayBuffer(file);
     }
 
+    let pendingFile = null;
+
     function sendPdfToEditor(name, arrayBuffer) {
+      if (!editorReady) {
+        pendingFile = { name, bytes: arrayBuffer };
+        return;
+      }
       if (editorFrame && editorFrame.contentWindow) {
+        const buf = arrayBuffer instanceof ArrayBuffer ? arrayBuffer.slice(0) : (arrayBuffer.buffer ? arrayBuffer.buffer.slice(0) : arrayBuffer);
         editorFrame.contentWindow.postMessage({
           type: "pdfcraft:open",
           name: name,
-          bytes: arrayBuffer
+          bytes: buf
         }, "*");
       }
     }
@@ -1650,7 +1663,10 @@
         editorReady = true;
         statusDot.className = "status-dot";
         statusText.innerText = i18n[currentLanguage].readyEngine;
-        if (currentFileBytes) {
+        if (pendingFile) {
+          sendPdfToEditor(pendingFile.name, pendingFile.bytes);
+          pendingFile = null;
+        } else if (currentFileBytes) {
           sendPdfToEditor(currentFileName, currentFileBytes);
         }
       }
@@ -1678,32 +1694,87 @@
       }
     });
 
-    // Drag & Drop handlers
+    // Drag & Drop handlers (Full window capture with zero drop-through)
     const dropZone = document.getElementById("dropZone");
     const dragOverlay = document.getElementById("dragOverlay");
+    let dragCounter = 0;
+
+    window.addEventListener("dragenter", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dragCounter++;
+      if (e.dataTransfer && e.dataTransfer.types && Array.from(e.dataTransfer.types).includes("Files")) {
+        dragOverlay.classList.add("active");
+      }
+    });
 
     window.addEventListener("dragover", (e) => {
       e.preventDefault();
-      dragOverlay.classList.add("active");
-    });
-
-    dragOverlay.addEventListener("dragleave", (e) => {
-      e.preventDefault();
-      dragOverlay.classList.remove("active");
-    });
-
-    dragOverlay.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dragOverlay.classList.remove("active");
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        const file = e.dataTransfer.files[0];
-        if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-          loadPdfFile(file);
-        } else {
-          showToast(currentLanguage === "vi" ? "Vui lòng chọn đúng tệp tin định dạng PDF!" : "Please select a valid PDF file!", "⚠️");
-        }
+      e.stopPropagation();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = "copy";
+      }
+      if (!dragOverlay.classList.contains("active")) {
+        dragOverlay.classList.add("active");
       }
     });
+
+    window.addEventListener("dragleave", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        dragOverlay.classList.remove("active");
+      }
+    });
+
+    window.addEventListener("dragend", () => {
+      dragCounter = 0;
+      dragOverlay.classList.remove("active");
+    });
+
+    function handlePdfDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dragCounter = 0;
+      dragOverlay.classList.remove("active");
+
+      const dt = e.dataTransfer;
+      if (!dt || !dt.files || dt.files.length === 0) return;
+
+      // If Merge Modal is open, feed dropped files directly into merge list
+      const mergeModal = document.getElementById("modalMerge");
+      if (mergeModal && mergeModal.classList.contains("open")) {
+        const validFiles = Array.from(dt.files).filter(f => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+        if (validFiles.length > 0) {
+          handleMergeFilesSelected(validFiles);
+          showToast(currentLanguage === "vi" ? ("Đã nhận " + validFiles.length + " file PDF để gộp!") : ("Received " + validFiles.length + " PDF files to merge!"), "📑");
+          return;
+        }
+      }
+
+      // Default: Load PDF into editor
+      const file = dt.files[0];
+      if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+        loadPdfFile(file);
+      } else {
+        showToast(currentLanguage === "vi" ? "Vui lòng chọn đúng tệp tin định dạng PDF!" : "Please select a valid PDF file!", "⚠️");
+      }
+    }
+
+    window.addEventListener("drop", handlePdfDrop);
+    dragOverlay.addEventListener("drop", handlePdfDrop);
+
+    const hubDropzoneEl = document.querySelector(".hub-dropzone");
+    if (hubDropzoneEl) {
+      hubDropzoneEl.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer) e.dataTransfer.dropEffect = "copy";
+      });
+      hubDropzoneEl.addEventListener("drop", handlePdfDrop);
+    }
 
     // Keyboard shortcuts
     window.addEventListener("keydown", (e) => {
@@ -1778,6 +1849,69 @@
       ctx.restore();
     }
 
+    function generateWatermarkPng(text, colorKey, opacity, fontSize) {
+      const scale = 3;
+      const mainPx = fontSize * scale;
+      const subPx = Math.max(9 * scale, Math.round(fontSize * 0.36 * scale));
+      const fontFam = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+
+      const subtitle = currentLanguage === "vi"
+        ? "CPG REAL ESTATE & INVESTMENT GROUP · OFFICIAL STAMP"
+        : "CPG GROUP · OFFICIAL CONFIDENTIALITY SEAL";
+
+      // Measure text using temporary canvas
+      const mCanvas = document.createElement("canvas");
+      const mCtx = mCanvas.getContext("2d");
+      mCtx.font = "bold " + mainPx + "px " + fontFam;
+      const mainMetrics = mCtx.measureText(text);
+      mCtx.font = "600 " + subPx + "px " + fontFam;
+      const subMetrics = mCtx.measureText(subtitle);
+
+      const maxTextW = Math.max(mainMetrics.width, subMetrics.width);
+      const padX = 36 * scale;
+      const padY = 22 * scale;
+
+      const cw = Math.ceil(maxTextW + padX * 2);
+      const ch = Math.ceil(mainPx + subPx + padY * 2 + 10 * scale);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = cw;
+      canvas.height = ch;
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, cw, ch);
+
+      let r = 220, g = 38, b = 38; // red
+      if (colorKey === "gray") { r = 71; g = 85; b = 105; }
+      else if (colorKey === "blue") { r = 30; g = 64; b = 175; }
+      else if (colorKey === "black") { r = 17; g = 24; b = 39; }
+
+      ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + opacity + ")";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      const cx = cw / 2;
+      const cy = ch / 2;
+
+      // Draw Main Title
+      ctx.font = "bold " + mainPx + "px " + fontFam;
+      ctx.fillText(text, cx, cy - subPx * 0.55);
+
+      // Draw Subtitle
+      ctx.font = "600 " + subPx + "px " + fontFam;
+      ctx.fillText(subtitle, cx, cy + mainPx * 0.5);
+
+      // Convert to binary Uint8Array
+      const dataUrl = canvas.toDataURL("image/png");
+      const base64Data = dataUrl.split(",")[1];
+      const binaryString = atob(base64Data);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return { bytes, widthPt: cw / scale, heightPt: ch / scale };
+    }
+
     async function applyWatermarkToDocument() {
       if (!currentFileBytes) {
         showToast(currentLanguage === "vi" ? "Vui lòng mở một file PDF trước khi đóng dấu!" : "Please open a PDF document before applying watermark!", "⚠️");
@@ -1787,9 +1921,8 @@
 
       try {
         showToast(currentLanguage === "vi" ? "Đang đóng dấu bảo mật CPG lên các trang..." : "Applying CPG security watermark across pages...", "⏳");
-        const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
-        const pdfDoc = await PDFDocument.load(currentFileBytes);
-        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        const { PDFDocument, degrees } = PDFLib;
+        const pdfDoc = await PDFDocument.load(currentFileBytes, { ignoreEncryption: true });
         const pages = pdfDoc.getPages();
 
         const text = document.getElementById("wmTextInput").value || "CPG CONFIDENTIAL";
@@ -1798,21 +1931,30 @@
         const opacity = parseInt(document.getElementById("wmOpacityRange").value) / 100;
         const fontSize = parseInt(document.getElementById("wmSizeRange").value);
 
-        let color = rgb(0.86, 0.15, 0.15); // red
-        if (colorKey === "gray") color = rgb(0.35, 0.4, 0.45);
-        if (colorKey === "blue") color = rgb(0.12, 0.35, 0.75);
-        if (colorKey === "black") color = rgb(0.1, 0.1, 0.1);
+        // Native HTML5 Canvas high-res rasterization for 100% Unicode & Vietnamese diacritic fidelity
+        const { bytes: pngBytes, widthPt, heightPt } = generateWatermarkPng(text, colorKey, opacity, fontSize);
+        const wmImage = await pdfDoc.embedPng(pngBytes);
+
+        const rad = (angle * Math.PI) / 180;
+        const cosA = Math.cos(rad);
+        const sinA = Math.sin(rad);
+        const halfW = widthPt / 2;
+        const halfH = heightPt / 2;
 
         for (const page of pages) {
           const { width, height } = page.getSize();
-          const textWidth = font.widthOfTextAtSize(text, fontSize);
-          page.drawText(text, {
-            x: width / 2 - (textWidth / 2) * Math.cos((angle * Math.PI) / 180),
-            y: height / 2,
-            size: fontSize,
-            font: font,
-            color: color,
-            opacity: opacity,
+          const cx = width / 2;
+          const cy = height / 2;
+
+          // Align center of rotated image with center of page
+          const x = cx - (halfW * cosA - halfH * sinA);
+          const y = cy - (halfW * sinA + halfH * cosA);
+
+          page.drawImage(wmImage, {
+            x: x,
+            y: y,
+            width: widthPt,
+            height: heightPt,
             rotate: degrees(angle)
           });
         }
@@ -1981,7 +2123,7 @@
 
         for (const file of mergeFilesArray) {
           const bytes = await file.arrayBuffer();
-          const doc = await PDFDocument.load(bytes);
+          const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
           const copiedPages = await mergedDoc.copyPages(doc, doc.getPageIndices());
           copiedPages.forEach((p) => mergedDoc.addPage(p));
         }
@@ -2017,7 +2159,7 @@
       try {
         showToast(currentLanguage === "vi" ? "Đang trích xuất trang..." : "Extracting pages...", "⏳");
         const { PDFDocument } = PDFLib;
-        const srcDoc = await PDFDocument.load(currentFileBytes);
+        const srcDoc = await PDFDocument.load(currentFileBytes, { ignoreEncryption: true });
         const totalPages = srcDoc.getPageCount();
 
         const targetIndices = [];

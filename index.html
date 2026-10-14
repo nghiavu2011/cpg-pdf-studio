@@ -1035,7 +1035,11 @@
       </button>
 
       <button class="btn-tool" id="btnSave" data-i18n-title="titleSave">
-        <span>💾</span> <span data-i18n="save">Lưu PDF</span>
+        <span>💾</span> <span data-i18n="save">Lưu Về Máy</span>
+      </button>
+
+      <button class="btn-tool" id="btnSaveAs" data-i18n-title="titleSaveAs">
+        <span>📥</span> <span data-i18n="saveAs">Lưu Bản Mới...</span>
       </button>
 
       <div class="btn-divider"></div>
@@ -1286,7 +1290,10 @@
 
       <div class="modal-footer">
         <button class="btn-tool" onclick="closeModal('modalWatermark')" data-i18n="cancel">Hủy Bỏ</button>
-        <button class="btn-tool primary" id="btnApplyWatermark" onclick="applyWatermarkToDocument()">
+        <button class="btn-tool" id="btnApplyWatermarkDownload" onclick="applyWatermarkToDocument(true)">
+          <span>📥</span> <span data-i18n="applyAndDownload">Đóng Dấu & Tải Về Máy</span>
+        </button>
+        <button class="btn-tool primary" id="btnApplyWatermark" onclick="applyWatermarkToDocument(false)">
           <span>⚡</span> <span data-i18n="applyAndOpen">Đóng Dấu & Mở Trong Editor</span>
         </button>
       </div>
@@ -1748,7 +1755,8 @@
       vi: {
         tagline: "Hệ Thống Biên Tập & Ký Số PDF · CPG INTERNATIONAL",
         open: "Mở PDF",
-        save: "Lưu PDF",
+        save: "Lưu Về Máy",
+        saveAs: "Lưu Bản Mới...",
         stampWatermark: "Đóng Dấu CPG",
         digitalSign: "Ký Số & Con Dấu",
         merge: "Ghép File",
@@ -1757,7 +1765,7 @@
         portable: "Bản Portable",
         help: "Trợ Giúp",
         readyEngine: "WebAssembly Engine: Sẵn sàng",
-        dirtyEngine: "Có thay đổi chưa lưu (Nhấn Lưu PDF)",
+        dirtyEngine: "Có thay đổi chưa lưu (Nhấn Lưu Về Máy)",
         savedEngine: "Đã lưu toàn bộ thay đổi",
         docLabel: "Tài liệu:",
         docPlaceholder: "Chưa mở file nào (Kéo thả file vào đây)",
@@ -1768,6 +1776,7 @@
         dropDesc: "Tệp tin được xử lý an toàn 100% cục bộ trên trình duyệt của bạn",
         cancel: "Hủy Bỏ",
         applyAndOpen: "Đóng Dấu & Mở Trong Editor",
+        applyAndDownload: "Đóng Dấu & Tải Về Máy",
         exportSignature: "Xuất Ảnh PNG Trong Suốt (Dán Vào PDF)",
         executeMerge: "Gộp File & Mở Trong Editor",
         executeSplit: "Trích Xuất & Mở Ngay",
@@ -1856,7 +1865,8 @@
         // Tooltips
         titleBrand: "Về trang chủ CPG PDF Studio",
         titleOpen: "Mở file PDF từ máy tính (Ctrl+O)",
-        titleSave: "Lưu tài liệu đã sửa (Ctrl+S)",
+        titleSave: "Lưu file PDF về máy tính (Ctrl+S)",
+        titleSaveAs: "Lưu tệp PDF thành bản mới với tên riêng",
         titleStamp: "Đóng dấu bản quyền, bảo mật CPG INTERNATIONAL lên tất cả các trang",
         titleSign: "Tạo chữ ký tay và con dấu tròn đỏ CPG",
         titleOrganize: "Quản lý và sắp xếp trang trực quan dạng lưới thumbnail",
@@ -1929,7 +1939,8 @@
       en: {
         tagline: "Enterprise PDF Editing & Signing Suite · CPG INTERNATIONAL",
         open: "Open PDF",
-        save: "Save PDF",
+        save: "Save to PC",
+        saveAs: "Save As...",
         stampWatermark: "CPG Stamp",
         digitalSign: "Sign & Seal",
         merge: "Merge Files",
@@ -1938,7 +1949,7 @@
         portable: "Portable App",
         help: "Help",
         readyEngine: "WebAssembly Engine: Ready",
-        dirtyEngine: "Unsaved changes (Click Save PDF)",
+        dirtyEngine: "Unsaved changes (Click Save to PC)",
         savedEngine: "All changes saved",
         docLabel: "Document:",
         docPlaceholder: "No document opened (Drag & drop PDF here)",
@@ -1949,6 +1960,7 @@
         dropDesc: "Files are processed 100% privately in your browser",
         cancel: "Cancel",
         applyAndOpen: "Apply Stamp & Open In Editor",
+        applyAndDownload: "Stamp & Download to PC",
         exportSignature: "Export Transparent PNG (Paste into PDF)",
         executeMerge: "Merge & Open In Editor",
         executeSplit: "Extract & Open Now",
@@ -2037,7 +2049,8 @@
         // Tooltips
         titleBrand: "Return to CPG PDF Studio Hub",
         titleOpen: "Open PDF file from computer (Ctrl+O)",
-        titleSave: "Save edited document (Ctrl+S)",
+        titleSave: "Save and download current PDF to computer (Ctrl+S)",
+        titleSaveAs: "Save PDF as a new file with custom name",
         titleStamp: "Apply CPG INTERNATIONAL confidentiality & copyright watermark across all pages",
         titleSign: "Create digital signature & CPG red corporate seal",
         titleOrganize: "Visual thumbnail grid page organizer and reorder",
@@ -2251,11 +2264,72 @@
       }
     }
 
-    // Save action
-    document.getElementById("btnSave").onclick = () => {
-      showToast(currentLanguage === "vi" ? "Đang chuẩn bị lưu tệp..." : "Preparing to save document...", "💾");
-      editorFrame.contentWindow.postMessage({ type: "pdfcraft:trigger_save" }, "*");
-    };
+    // Save & Save As Actions (Direct local file download to PC)
+    async function savePdfToLocal(isSaveAs = false) {
+      if (!currentFileBytes) {
+        showToast(currentLanguage === "vi" ? "Chưa có tài liệu nào để lưu! Vui lòng mở file PDF trước." : "No document opened! Please open a PDF file first.", "⚠️");
+        filePicker.click();
+        return;
+      }
+
+      let saveName = currentFileName || "CPG_Document.pdf";
+      if (!saveName.toLowerCase().endsWith(".pdf")) saveName += ".pdf";
+
+      if (isSaveAs) {
+        const defaultNewName = saveName.replace(/\.pdf$/i, "") + "_CPG.pdf";
+        if (window.showSaveFilePicker) {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: defaultNewName,
+              types: [{
+                description: "PDF Document",
+                accept: { "application/pdf": [".pdf"] },
+              }],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(currentFileBytes);
+            await writable.close();
+            currentFileName = handle.name;
+            currentDocLabel.innerText = handle.name;
+            isDirty = false;
+            statusDot.className = "status-dot";
+            statusText.innerText = i18n[currentLanguage].savedEngine;
+            showToast(currentLanguage === "vi" ? ("Đã lưu file thành công: " + handle.name) : ("Saved file successfully: " + handle.name), "💾");
+            return;
+          } catch (err) {
+            if (err.name === "AbortError") return;
+            console.warn("showSaveFilePicker fallback:", err);
+          }
+        }
+        const promptText = currentLanguage === "vi" ? "Nhập tên file PDF mới cần lưu về máy tính:" : "Enter new PDF filename to save to computer:";
+        const entered = prompt(promptText, defaultNewName);
+        if (!entered) return;
+        saveName = entered.trim();
+        if (!saveName.toLowerCase().endsWith(".pdf")) saveName += ".pdf";
+      }
+
+      const blob = new Blob([currentFileBytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = saveName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      if (isSaveAs) {
+        currentFileName = saveName;
+        currentDocLabel.innerText = saveName;
+      }
+      isDirty = false;
+      statusDot.className = "status-dot";
+      statusText.innerText = i18n[currentLanguage].savedEngine;
+      showToast(currentLanguage === "vi" ? ("Đã tải file về máy thành công: " + saveName) : ("Downloaded file successfully: " + saveName), "💾");
+    }
+
+    document.getElementById("btnSave").onclick = () => savePdfToLocal(false);
+    document.getElementById("btnSaveAs").onclick = () => savePdfToLocal(true);
 
     // Listen for messages from PdfCraft iframe bridge
     window.addEventListener("message", (event) => {
@@ -2522,7 +2596,7 @@
       return { bytes, widthPt: cw / scale, heightPt: ch / scale };
     }
 
-    async function applyWatermarkToDocument() {
+    async function applyWatermarkToDocument(downloadAfter = false) {
       if (!currentFileBytes) {
         showToast(currentLanguage === "vi" ? "Vui lòng mở một file PDF trước khi đóng dấu!" : "Please open a PDF document before applying watermark!", "⚠️");
         closeModal("modalWatermark");
@@ -2574,7 +2648,12 @@
         sendPdfToEditor(currentFileName, newPdfBytes);
         toggleHub(false);
         closeModal("modalWatermark");
-        showToast(currentLanguage === "vi" ? ("Đã đóng dấu CPG thành công trên " + pages.length + " trang!") : ("Successfully stamped " + pages.length + " pages!"), "✅");
+
+        if (downloadAfter) {
+          savePdfToLocal(false);
+        } else {
+          showToast(currentLanguage === "vi" ? ("Đã đóng dấu CPG thành công trên " + pages.length + " trang!") : ("Successfully stamped " + pages.length + " pages!"), "✅");
+        }
       } catch (err) {
         console.error(err);
         showToast((currentLanguage === "vi" ? "Lỗi khi đóng dấu: " : "Stamp error: ") + err.message, "❌");

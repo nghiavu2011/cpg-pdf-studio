@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CPG PDF Studio - Enterprise PDF Editing & Signing Suite</title>
-  <meta name="description" content="Hệ thống biên tập, bảo mật, đóng dấu bản quyền và ký số tài liệu PDF chuyên nghiệp dành cho Tập đoàn CPG với phong cách Glassmorphism hiện đại." />
+  <meta name="description" content="Hệ thống biên tập, bảo mật, đóng dấu bản quyền và ký số tài liệu PDF chuyên nghiệp dành cho CPG INTERNATIONAL với phong cách Glassmorphism hiện đại." />
   <link rel="icon" type="image/png" href="images/cpg_logo_white_opt.png" />
   
   <!-- Offline PDF manipulation & rendering engines -->
@@ -1024,7 +1024,7 @@
           <span class="brand-name">CPG PDF STUDIO</span>
           <span class="brand-badge">ENTERPRISE</span>
         </div>
-        <span class="brand-tagline" data-i18n="tagline">Hệ Thống Biên Tập & Ký Số PDF · CPG Corp</span>
+        <span class="brand-tagline" data-i18n="tagline">Hệ Thống Biên Tập & Ký Số PDF · CPG INTERNATIONAL</span>
       </div>
     </div>
 
@@ -1111,9 +1111,8 @@
 
     <div class="quick-stamp-chips">
       <span style="font-size:10px; color:#64748b;" data-i18n="quickStamp">Gắn dấu nhanh:</span>
-      <span class="quick-chip" id="chipConfidential" onclick="quickApplyStamp('CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ', 'CPG CONFIDENTIAL - INTERNAL USE ONLY')">+ CPG Confidential</span>
-      <span class="quick-chip" id="chipCopyright" onclick="quickApplyStamp('BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP', 'CPG GROUP COPYRIGHT - ALL RIGHTS RESERVED')" data-i18n="chipCopyright">+ Bản Quyền CPG</span>
-      <span class="quick-chip" id="chipApproved" onclick="quickApplyStamp('ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG', 'APPROVED - CPG BOARD OF DIRECTORS')" data-i18n="chipApproved">+ Phê Duyệt CPG</span>
+      <span class="quick-chip" id="chipConfidential" onclick="quickApplyStamp('CPG INTERNATIONAL CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ', 'CPG INTERNATIONAL CONFIDENTIAL - INTERNAL USE ONLY')" data-i18n="chipConfidential">+ CPG International Confidential</span>
+      <span class="quick-chip" id="chipCopyright" onclick="quickApplyStamp('BẢN QUYỀN THUỘC CPG INTERNATIONAL - CẤM SAO CHÉP', 'CPG INTERNATIONAL COPYRIGHT - ALL RIGHTS RESERVED')" data-i18n="chipCopyright">+ Bản Quyền CPG International</span>
     </div>
   </div>
 
@@ -1135,7 +1134,7 @@
             </div>
             <div class="hub-brand-titles">
               <h1>CPG PDF STUDIO <span class="brand-badge">ENTERPRISE</span></h1>
-              <p data-i18n="hubSubtitle">Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · Tập đoàn CPG</p>
+              <p data-i18n="hubSubtitle">Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · CPG INTERNATIONAL</p>
             </div>
           </div>
           <button class="btn-tool" onclick="toggleHub(false)" data-i18n-title="titleWorkspaceDirect" style="font-size: 11px;">
@@ -1157,13 +1156,13 @@
           <div class="glass-action-card" onclick="openModal('modalWatermark')">
             <div class="card-icon-wrap" style="color: #ef4444;">🏷️</div>
             <div class="card-title" data-i18n="hubCard1Title">Đóng Dấu Bản Quyền</div>
-            <div class="card-desc" data-i18n="hubCard1Desc">Gắn dấu bảo mật CPG Confidential, Phê duyệt, Bản quyền 1 chạm toàn trang.</div>
+            <div class="card-desc" data-i18n="hubCard1Desc">Gắn dấu bảo mật CPG International Confidential, Bản quyền 1 chạm toàn trang.</div>
           </div>
 
           <div class="glass-action-card" onclick="openModal('modalSign')">
             <div class="card-icon-wrap" style="color: #10b981;">✍️</div>
             <div class="card-title" data-i18n="hubCard2Title">Ký Số & Con Dấu Đỏ</div>
-            <div class="card-desc" data-i18n="hubCard2Desc">Chữ ký tay điện tử và con dấu tròn đỏ Ban Giám Đốc Tập đoàn CPG.</div>
+            <div class="card-desc" data-i18n="hubCard2Desc">Chữ ký tay điện tử và con dấu tròn đỏ CPG INTERNATIONAL.</div>
           </div>
 
           <div class="glass-action-card" onclick="openOrganizeModal()">
@@ -1224,19 +1223,17 @@
         <div class="form-group">
           <label class="form-label" data-i18n="watermarkPreset">Mẫu dấu doanh nghiệp chuẩn:</label>
           <select class="form-select" id="wmPresetSelect" onchange="onWmPresetChange()">
-            <option value="BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP" data-i18n="wmOpt1">1. BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP</option>
-            <option value="CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" selected data-i18n="wmOpt2">2. CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ</option>
-            <option value="ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG" data-i18n="wmOpt3">3. ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG</option>
-            <option value="DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG" data-i18n="wmOpt4">4. DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG</option>
-            <option value="HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG" data-i18n="wmOpt5">5. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG</option>
-            <option value="BẢN THẢO - DRAFT ONLY" data-i18n="wmOpt6">6. BẢN THẢO - DRAFT ONLY</option>
+            <option value="BẢN QUYỀN THUỘC CPG INTERNATIONAL - CẤM SAO CHÉP" data-i18n="wmOpt1">1. BẢN QUYỀN THUỘC CPG INTERNATIONAL - CẤM SAO CHÉP</option>
+            <option value="CPG INTERNATIONAL CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" selected data-i18n="wmOpt2">2. CPG INTERNATIONAL CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ</option>
+            <option value="HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG INTERNATIONAL" data-i18n="wmOpt3">3. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG INTERNATIONAL</option>
+            <option value="BẢN THẢO - DRAFT ONLY" data-i18n="wmOpt4">4. BẢN THẢO - DRAFT ONLY</option>
             <option value="CUSTOM" data-i18n="wmOptCustom">-- Tự nhập nội dung riêng --</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label" data-i18n="watermarkText">Nội dung chữ đóng dấu:</label>
-          <input type="text" class="form-input" id="wmTextInput" value="CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" oninput="renderWmSample()" />
+          <input type="text" class="form-input" id="wmTextInput" value="CPG INTERNATIONAL CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" oninput="renderWmSample()" />
         </div>
 
         <div class="form-row">
@@ -1334,12 +1331,12 @@
         <!-- Tab 2: Con dấu đỏ CPG -->
         <div id="tabContentSeal" style="display:none;">
           <div class="form-group">
-            <label class="form-label" data-i18n="sealPreviewLabel">Mẫu con dấu doanh nghiệp tròn đỏ CPG:</label>
+            <label class="form-label" data-i18n="sealPreviewLabel">Mẫu con dấu doanh nghiệp tròn đỏ CPG INTERNATIONAL:</label>
             <div class="watermark-preview-wrap" style="height:200px;">
               <canvas id="sealCanvas" width="200" height="200"></canvas>
             </div>
             <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px;" data-i18n="sealCaption">
-              Con dấu chuẩn pháp lý: CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG - BAN TỔNG GIÁM ĐỐC - ĐÃ PHÊ DUYỆT
+              Con dấu chuẩn pháp lý: CPG INTERNATIONAL - OFFICIAL SEAL
             </div>
           </div>
         </div>
@@ -1749,7 +1746,7 @@
     // Comprehensive Bilingual Translations Dictionary
     const i18n = {
       vi: {
-        tagline: "Hệ Thống Biên Tập & Ký Số PDF · CPG Corp",
+        tagline: "Hệ Thống Biên Tập & Ký Số PDF · CPG INTERNATIONAL",
         open: "Mở PDF",
         save: "Lưu PDF",
         stampWatermark: "Đóng Dấu CPG",
@@ -1765,8 +1762,8 @@
         docLabel: "Tài liệu:",
         docPlaceholder: "Chưa mở file nào (Kéo thả file vào đây)",
         quickStamp: "Gắn dấu nhanh:",
-        chipCopyright: "+ Bản Quyền CPG",
-        chipApproved: "+ Phê Duyệt CPG",
+        chipConfidential: "+ CPG International Confidential",
+        chipCopyright: "+ Bản Quyền CPG International",
         dropTitle: "Thả file PDF vào đây để mở",
         dropDesc: "Tệp tin được xử lý an toàn 100% cục bộ trên trình duyệt của bạn",
         cancel: "Hủy Bỏ",
@@ -1774,14 +1771,14 @@
         exportSignature: "Xuất Ảnh PNG Trong Suốt (Dán Vào PDF)",
         executeMerge: "Gộp File & Mở Trong Editor",
         executeSplit: "Trích Xuất & Mở Ngay",
-        hubSubtitle: "Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · Tập đoàn CPG",
+        hubSubtitle: "Hệ thống Biên tập, Ký số & Bảo mật Hồ sơ Doanh nghiệp Chuẩn Quốc Tế · CPG INTERNATIONAL",
         openWorkspaceDirect: "Vào Bàn Làm Việc",
         hubDropTitle: "Kéo thả tệp PDF vào đây, hoặc nhấn để chọn file",
         hubDropDesc: "Hỗ trợ toàn bộ tài liệu hồ sơ dự án, hợp đồng, bản vẽ kiến trúc. Xử lý bảo mật 100% tại máy khách (WebAssembly Client-side), tuyệt đối an toàn.",
         hubCard1Title: "Đóng Dấu Bản Quyền",
-        hubCard1Desc: "Gắn dấu bảo mật CPG Confidential, Phê duyệt, Bản quyền 1 chạm toàn trang.",
+        hubCard1Desc: "Gắn dấu bảo mật CPG International Confidential, Bản quyền 1 chạm toàn trang.",
         hubCard2Title: "Ký Số & Con Dấu Đỏ",
-        hubCard2Desc: "Chữ ký tay điện tử và con dấu tròn đỏ Ban Giám Đốc Tập đoàn CPG.",
+        hubCard2Desc: "Chữ ký tay điện tử và con dấu tròn đỏ CPG INTERNATIONAL.",
         hubCard3Title: "Ghép Nối & Tách File",
         hubCard3Desc: "Gộp nhiều hồ sơ PDF thành 1 tập hoặc trích xuất dải trang cụ thể.",
         hubCard4Title: "Biên Tập Chuyên Nghiệp",
@@ -1791,14 +1788,12 @@
         hubShortcutsLink: "⌨️ Phím tắt",
 
         // Watermark Modal
-        modalWatermarkTitle: "Đóng Dấu Bản Quyền & Bảo Mật CPG",
+        modalWatermarkTitle: "Đóng Dấu Bản Quyền & Bảo Mật CPG INTERNATIONAL",
         watermarkPreset: "Mẫu dấu doanh nghiệp chuẩn:",
-        wmOpt1: "1. BẢN QUYỀN THUỘC TẬP ĐOÀN CPG - CẤM SAO CHÉP",
-        wmOpt2: "2. CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ",
-        wmOpt3: "3. ĐÃ PHÊ DUYỆT - BAN TỔNG GIÁM ĐỐC CPG",
-        wmOpt4: "4. DỰ ÁN ĐẦU TƯ BẤT ĐỘNG SẢN CPG",
-        wmOpt5: "5. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG",
-        wmOpt6: "6. BẢN THẢO - DRAFT ONLY",
+        wmOpt1: "1. BẢN QUYỀN THUỘC CPG INTERNATIONAL - CẤM SAO CHÉP",
+        wmOpt2: "2. CPG INTERNATIONAL CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ",
+        wmOpt3: "3. HỒ SƠ BẢN VẼ KỸ THUẬT & DỰ TOÁN - CPG INTERNATIONAL",
+        wmOpt4: "4. BẢN THẢO - DRAFT ONLY",
         wmOptCustom: "-- Tự nhập nội dung riêng --",
         watermarkText: "Nội dung chữ đóng dấu:",
         watermarkColor: "Màu sắc dấu:",
@@ -1815,7 +1810,7 @@
         watermarkPreview: "Mô phỏng dấu trên trang giấy A4:",
 
         // Signature Modal
-        modalSignTitle: "Ký Số & Con Dấu Đỏ Doanh Nghiệp CPG",
+        modalSignTitle: "Ký Số & Con Dấu Đỏ CPG INTERNATIONAL",
         tabDraw: "Ký Tay (Draw)",
         tabSeal: "Con Dấu Đỏ CPG (Red Seal)",
         signPadLabel: "Ký tên vào ô bên dưới bằng chuột hoặc bút cảm ứng:",
@@ -1824,8 +1819,8 @@
         inkBlack: "Đen",
         inkRed: "Đỏ",
         clearPad: "Xóa Ký Lại",
-        sealPreviewLabel: "Mẫu con dấu doanh nghiệp tròn đỏ CPG:",
-        sealCaption: "Con dấu chuẩn pháp lý: CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG - BAN TỔNG GIÁM ĐỐC - ĐÃ PHÊ DUYỆT",
+        sealPreviewLabel: "Mẫu con dấu doanh nghiệp tròn đỏ CPG INTERNATIONAL:",
+        sealCaption: "Con dấu chuẩn pháp lý: CPG INTERNATIONAL - OFFICIAL SEAL",
 
         // Merge & Split Modals
         modalMergeTitle: "Gộp Nhiều File PDF (Merge PDFs)",
@@ -1862,7 +1857,7 @@
         titleBrand: "Về trang chủ CPG PDF Studio",
         titleOpen: "Mở file PDF từ máy tính (Ctrl+O)",
         titleSave: "Lưu tài liệu đã sửa (Ctrl+S)",
-        titleStamp: "Đóng dấu bản quyền, bảo mật CPG lên tất cả các trang",
+        titleStamp: "Đóng dấu bản quyền, bảo mật CPG INTERNATIONAL lên tất cả các trang",
         titleSign: "Tạo chữ ký tay và con dấu tròn đỏ CPG",
         titleOrganize: "Quản lý và sắp xếp trang trực quan dạng lưới thumbnail",
         titleMerge: "Gộp nhiều file PDF thành một tập tài liệu",
@@ -1932,7 +1927,7 @@
         helpImages: "Xuất PDF sang ảnh PNG / JPEG / ZIP"
       },
       en: {
-        tagline: "Enterprise PDF Editing & Signing Suite · CPG Corp",
+        tagline: "Enterprise PDF Editing & Signing Suite · CPG INTERNATIONAL",
         open: "Open PDF",
         save: "Save PDF",
         stampWatermark: "CPG Stamp",
@@ -1948,8 +1943,8 @@
         docLabel: "Document:",
         docPlaceholder: "No document opened (Drag & drop PDF here)",
         quickStamp: "Quick Stamp:",
-        chipCopyright: "+ CPG Copyright",
-        chipApproved: "+ CPG Approved",
+        chipConfidential: "+ CPG International Confidential",
+        chipCopyright: "+ CPG International Copyright",
         dropTitle: "Drop PDF here to open",
         dropDesc: "Files are processed 100% privately in your browser",
         cancel: "Cancel",
@@ -1957,14 +1952,14 @@
         exportSignature: "Export Transparent PNG (Paste into PDF)",
         executeMerge: "Merge & Open In Editor",
         executeSplit: "Extract & Open Now",
-        hubSubtitle: "International Enterprise PDF Editing, Signing & Security System · CPG Corp",
+        hubSubtitle: "International Enterprise PDF Editing, Signing & Security System · CPG INTERNATIONAL",
         openWorkspaceDirect: "Enter Workspace",
         hubDropTitle: "Drop PDF file here, or click to browse",
         hubDropDesc: "Supports all project dossiers, contracts, and architectural drawings. 100% private WebAssembly processing.",
         hubCard1Title: "Watermark Stamp",
-        hubCard1Desc: "Apply CPG Confidential, Approved, or Copyright watermark in 1 click across all pages.",
+        hubCard1Desc: "Apply CPG International Confidential or Copyright watermark in 1 click across all pages.",
         hubCard2Title: "Digital Sign & Seal",
-        hubCard2Desc: "Handwritten digital signature & CPG Board of Directors official red corporate seal.",
+        hubCard2Desc: "Handwritten digital signature & CPG INTERNATIONAL official red corporate seal.",
         hubCard3Title: "Merge & Split",
         hubCard3Desc: "Combine multiple PDF files or extract selective page ranges with zero quality loss.",
         hubCard4Title: "Acrobat Workbench",
@@ -1974,14 +1969,12 @@
         hubShortcutsLink: "⌨️ Shortcuts",
 
         // Watermark Modal
-        modalWatermarkTitle: "CPG Confidentiality & Watermark Stamp",
+        modalWatermarkTitle: "CPG INTERNATIONAL Confidentiality & Watermark Stamp",
         watermarkPreset: "Corporate Standard Presets:",
-        wmOpt1: "1. CPG GROUP COPYRIGHT - ALL RIGHTS RESERVED",
-        wmOpt2: "2. CPG CONFIDENTIAL - INTERNAL USE ONLY",
-        wmOpt3: "3. APPROVED - CPG BOARD OF DIRECTORS",
-        wmOpt4: "4. CPG REAL ESTATE & INVESTMENT PROJECT",
-        wmOpt5: "5. CPG ARCHITECTURAL DRAWINGS & ESTIMATES",
-        wmOpt6: "6. DRAFT - UNAPPROVED VERSION",
+        wmOpt1: "1. CPG INTERNATIONAL COPYRIGHT - ALL RIGHTS RESERVED",
+        wmOpt2: "2. CPG INTERNATIONAL CONFIDENTIAL - INTERNAL USE ONLY",
+        wmOpt3: "3. CPG INTERNATIONAL ARCHITECTURAL DRAWINGS & ESTIMATES",
+        wmOpt4: "4. DRAFT - UNAPPROVED VERSION",
         wmOptCustom: "-- Custom Watermark Text --",
         watermarkText: "Watermark Text Content:",
         watermarkColor: "Stamp Color:",
@@ -1998,7 +1991,7 @@
         watermarkPreview: "A4 Sheet Stamp Live Preview:",
 
         // Signature Modal
-        modalSignTitle: "CPG Digital Signature & Official Seal",
+        modalSignTitle: "CPG INTERNATIONAL Digital Signature & Official Seal",
         tabDraw: "Draw Signature",
         tabSeal: "CPG Red Corporate Seal",
         signPadLabel: "Sign your signature below using mouse or stylus:",
@@ -2007,8 +2000,8 @@
         inkBlack: "Black",
         inkRed: "Red",
         clearPad: "Clear Pad",
-        sealPreviewLabel: "CPG Corporate Official Red Seal Preview:",
-        sealCaption: "Corporate Legal Seal: CPG GROUP JOINT STOCK COMPANY - BOARD OF DIRECTORS - APPROVED",
+        sealPreviewLabel: "CPG INTERNATIONAL Corporate Official Red Seal Preview:",
+        sealCaption: "Corporate Legal Seal: CPG INTERNATIONAL - OFFICIAL SEAL",
 
         // Merge & Split Modals
         modalMergeTitle: "Combine Multiple PDFs (Merge)",
@@ -2045,7 +2038,7 @@
         titleBrand: "Return to CPG PDF Studio Hub",
         titleOpen: "Open PDF file from computer (Ctrl+O)",
         titleSave: "Save edited document (Ctrl+S)",
-        titleStamp: "Apply CPG confidentiality & copyright watermark across all pages",
+        titleStamp: "Apply CPG INTERNATIONAL confidentiality & copyright watermark across all pages",
         titleSign: "Create digital signature & CPG red corporate seal",
         titleOrganize: "Visual thumbnail grid page organizer and reorder",
         titleMerge: "Combine multiple PDF files into one dossier",
@@ -2158,10 +2151,10 @@
 
       // Watermark default text update if on default
       const wmInput = document.getElementById("wmTextInput");
-      if (wmInput.value.includes("CPG CONFIDENTIAL")) {
+      if (wmInput.value.includes("CPG INTERNATIONAL CONFIDENTIAL") || wmInput.value.includes("CPG CONFIDENTIAL")) {
         wmInput.value = lang === "vi" 
-          ? "CPG CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" 
-          : "CPG CONFIDENTIAL - INTERNAL USE ONLY";
+          ? "CPG INTERNATIONAL CONFIDENTIAL - TÀI LIỆU LƯU HÀNH NỘI BỘ" 
+          : "CPG INTERNATIONAL CONFIDENTIAL - INTERNAL USE ONLY";
       }
 
       renderWmSample();
@@ -2429,7 +2422,7 @@
       const ctx = canvas.getContext("2d");
       const w = canvas.width;
       const h = canvas.height;
-      const text = document.getElementById("wmTextInput").value || (currentLanguage === "vi" ? "CPG CONFIDENTIAL" : "CPG CONFIDENTIAL");
+      const text = document.getElementById("wmTextInput").value || "CPG INTERNATIONAL CONFIDENTIAL";
       const colorKey = document.getElementById("wmColorSelect").value;
       const angle = parseInt(document.getElementById("wmAngleSelect").value);
       const opacity = parseInt(document.getElementById("wmOpacityRange").value) / 100;
@@ -2464,7 +2457,7 @@
 
       // Subtitle
       ctx.font = "9px sans-serif";
-      ctx.fillText(currentLanguage === "vi" ? "CPG REAL ESTATE & INVESTMENT GROUP · OFFICIAL STAMP" : "CPG GROUP · OFFICIAL CONFIDENTIALITY SEAL", 0, 18);
+      ctx.fillText("CPG INTERNATIONAL · OFFICIAL STAMP", 0, 18);
       ctx.restore();
     }
 
@@ -2474,9 +2467,7 @@
       const subPx = Math.max(9 * scale, Math.round(fontSize * 0.36 * scale));
       const fontFam = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
-      const subtitle = currentLanguage === "vi"
-        ? "CPG REAL ESTATE & INVESTMENT GROUP · OFFICIAL STAMP"
-        : "CPG GROUP · OFFICIAL CONFIDENTIALITY SEAL";
+      const subtitle = "CPG INTERNATIONAL · OFFICIAL STAMP";
 
       // Measure text using temporary canvas
       const mCanvas = document.createElement("canvas");
@@ -2544,7 +2535,7 @@
         const pdfDoc = await PDFDocument.load(currentFileBytes, { ignoreEncryption: true });
         const pages = pdfDoc.getPages();
 
-        const text = document.getElementById("wmTextInput").value || "CPG CONFIDENTIAL";
+        const text = document.getElementById("wmTextInput").value || "CPG INTERNATIONAL CONFIDENTIAL";
         const colorKey = document.getElementById("wmColorSelect").value;
         const angle = parseInt(document.getElementById("wmAngleSelect").value);
         const opacity = parseInt(document.getElementById("wmOpacityRange").value) / 100;
@@ -2674,15 +2665,15 @@
       ctx.fillText("★", cx, cy - 8);
 
       // Text inside
-      ctx.font = "bold 11px sans-serif";
-      ctx.fillText(currentLanguage === "vi" ? "TẬP ĐOÀN CPG" : "CPG GROUP CORP", cx, cy + 18);
-      ctx.font = "bold 9px sans-serif";
-      ctx.fillText(currentLanguage === "vi" ? "ĐÃ PHÊ DUYỆT" : "OFFICIALLY APPROVED", cx, cy + 32);
+      ctx.font = "bold 10px sans-serif";
+      ctx.fillText("CPG INTERNATIONAL", cx, cy + 16);
+      ctx.font = "bold 8.5px sans-serif";
+      ctx.fillText("OFFICIAL SEAL", cx, cy + 29);
 
       // Circular text
       ctx.save();
-      ctx.font = "bold 10px sans-serif";
-      const txt = currentLanguage === "vi" ? "CÔNG TY CỔ PHẦN TẬP ĐOÀN CPG · " : "CPG GROUP JOINT STOCK COMPANY · ";
+      ctx.font = "bold 9.5px sans-serif";
+      const txt = "CPG INTERNATIONAL · OFFICIAL SEAL · ";
       for (let i = 0; i < txt.length; i++) {
         const char = txt[i];
         const theta = -Math.PI * 0.8 + (i * (Math.PI * 1.6) / txt.length);

@@ -1082,6 +1082,10 @@
         <span>💻</span> <span data-i18n="portable">Bản Portable</span>
       </button>
 
+      <button class="btn-tool" id="btnHowItWorksPdf" data-i18n-title="titleHowItWorks" style="color: #60a5fa;">
+        <span>❓</span> <span data-i18n="howItWorks">Cơ Chế Hoạt Động</span>
+      </button>
+
       <button class="btn-tool" id="btnHelp" data-i18n-title="titleHelp">
         <span>ℹ️</span> <span data-i18n="help">Trợ Giúp</span>
       </button>
@@ -1728,6 +1732,76 @@
     </div>
   </div>
 
+  <!-- ================= MODAL HOW IT WORKS: CƠ CHẾ HOẠT ĐỘNG PDF ================= -->
+  <div class="modal-backdrop" id="modalHowItWorksPdf">
+    <div class="modal-card" style="max-width: 760px;">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <span>💡</span> <span data-i18n="modalHowPdfTitle">Cơ Chế Hoạt Động & Tăng Tốc Phần Cứng PDF</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalHowItWorksPdf')">&times;</button>
+      </div>
+
+      <div class="modal-body" style="font-size:13px; line-height:1.6; color:#cbd5e1;">
+        <!-- Core Question & Answer Banner -->
+        <div style="background: linear-gradient(135deg, rgba(37,99,235,0.22), rgba(16,185,129,0.18)); border: 1px solid rgba(59,130,246,0.4); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 20px;">
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <span style="font-size: 26px; line-height: 1;">🤔</span>
+            <div>
+              <h4 style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 700; color: #ffffff;" data-i18n="qnaQuestionPdf">
+                "Tuy dùng online nhưng có phải ứng dụng đang chạy bằng Card đồ họa (GPU) và CPU của máy tính đang mở? Xử lý nhanh hay chậm từ chính máy tôi?"
+              </h4>
+              <p style="margin: 0; font-size: 13px; color: #93c5fd; font-weight: 600;" data-i18n="qnaAnswerPdf">
+                👉 CHÍNH XÁC 100%! Toàn bộ quá trình giải mã trang PDF, render vector, đóng dấu bản quyền CPG, nén tệp và ký số đều diễn ra CỤC BỘ 100% trên phần cứng (GPU, CPU, RAM) của chính máy tính bạn. Máy chủ Vercel không hề lưu trữ hay xem bất kỳ trang tài liệu nào của bạn.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Pillars Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-bottom: 20px;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 15px;">
+            <div style="font-size: 20px; margin-bottom: 8px;">🎮</div>
+            <h5 style="margin: 0 0 6px 0; font-size: 13.5px; color: #60a5fa;" data-i18n="pillar1TitlePdf">1. GPU & Dựng Hình (Render)</h5>
+            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.5;" data-i18n="pillar1DescPdf">
+              Trình duyệt sử dụng GPU của máy bạn để tăng tốc render các trang PDF, cuộn trang siêu mượt 60 FPS, khử răng cưa chữ và hình vẽ kỹ thuật CAD.
+            </p>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 15px;">
+            <div style="font-size: 20px; margin-bottom: 8px;">⚡</div>
+            <h5 style="margin: 0 0 6px 0; font-size: 13.5px; color: #fbbf24;" data-i18n="pillar2TitlePdf">2. WebAssembly (Rust) & RAM</h5>
+            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.5;" data-i18n="pillar2DescPdf">
+              Lõi Rust WebAssembly (PdfCraft) và PDF-Lib chạy trực tiếp trên CPU và RAM của bạn. Xử lý đóng dấu, gộp file, trích xuất trang nhanh gấp 10-20 lần JS thông thường.
+            </p>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 15px;">
+            <div style="font-size: 20px; margin-bottom: 8px;">🔒</div>
+            <h5 style="margin: 0 0 6px 0; font-size: 13.5px; color: #34d399;" data-i18n="pillar3TitlePdf">3. Bảo Mật Doanh Nghiệp 100%</h5>
+            <p style="margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.5;" data-i18n="pillar3DescPdf">
+              Zero Cloud Upload. Bản vẽ thiết kế, hồ sơ thầu, hợp đồng CPG KHÔNG BAO GIỜ bị gửi lên Internet. Tắt hẳn Wi-Fi vẫn biên tập và tải file về máy bình thường.
+            </p>
+          </div>
+        </div>
+
+        <!-- Performance Breakdown -->
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 16px;">
+          <h5 style="margin: 0 0 10px 0; font-size: 13px; color: var(--accent-gold); font-weight: 700;" data-i18n="perfTitlePdf">TỐC ĐỘ XỬ LÝ NHANH HAY CHẬM DO ĐÂU?</h5>
+          <ul style="margin: 0; padding-left: 20px; font-size: 12.5px; color: #cbd5e1; line-height: 1.7;" id="pdfPerfList">
+            <li><b data-i18n="perfPdfNet">Tốc độ Internet</b>: <span data-i18n="perfPdfNetDesc">Chỉ cần thiết trong 2-3 giây đầu tiên để tải file nhị phân WASM vào cache máy tính.</span></li>
+            <li><b data-i18n="perfPdfGpu">Độ mượt khi đọc bản vẽ & zoom trang</b>: <span data-i18n="perfPdfGpuDesc">Phụ thuộc vào tốc độ của Card màn hình (GPU) của bạn.</span></li>
+            <li><b data-i18n="perfPdfCpu">Thời gian gộp, trích xuất, nén tài liệu hàng trăm trang</b>: <span data-i18n="perfPdfCpuDesc">Phụ thuộc vào tốc độ CPU và dung lượng RAM máy tính của bạn.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-tool primary" onclick="closeModal('modalHowItWorksPdf')" data-i18n="gotIt">Đã Hiểu</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Glass -->
   <div class="toast-box" id="toastBox">
     <span id="toastIcon">✅</span>
@@ -1861,6 +1935,25 @@
         helpF: "Tìm kiếm từ khóa trong tài liệu",
         helpAlt: "Chọn văn bản theo cột (Column Select)",
         close: "Đóng",
+
+        howItWorks: "Cơ Chế Hoạt Động",
+        titleHowItWorks: "Giải thích cơ chế xử lý bằng Card đồ họa GPU & CPU cục bộ",
+        modalHowPdfTitle: "Cơ Chế Hoạt Động & Tăng Tốc Phần Cứng PDF",
+        qnaQuestionPdf: "\"Tuy dùng online nhưng có phải ứng dụng đang chạy bằng Card đồ họa (GPU) và CPU của máy tính đang mở? Xử lý nhanh hay chậm từ chính máy tôi?\"",
+        qnaAnswerPdf: "👉 CHÍNH XÁC 100%! Toàn bộ quá trình giải mã trang PDF, render vector, đóng dấu bản quyền CPG, nén tệp và ký số đều diễn ra CỤC BỘ 100% trên phần cứng (GPU, CPU, RAM) của chính máy tính bạn. Máy chủ Vercel không hề lưu trữ hay xem bất kỳ trang tài liệu nào của bạn.",
+        pillar1TitlePdf: "1. GPU & Dựng Hình (Render)",
+        pillar1DescPdf: "Trình duyệt sử dụng GPU của máy bạn để tăng tốc render các trang PDF, cuộn trang siêu mượt 60 FPS, khử răng cưa chữ và hình vẽ kỹ thuật CAD.",
+        pillar2TitlePdf: "2. WebAssembly (Rust) & RAM",
+        pillar2DescPdf: "Lõi Rust WebAssembly (PdfCraft) và PDF-Lib chạy trực tiếp trên CPU và RAM của bạn. Xử lý đóng dấu, gộp file, trích xuất trang nhanh gấp 10-20 lần JS thông thường.",
+        pillar3TitlePdf: "3. Bảo Mật Doanh Nghiệp 100%",
+        pillar3DescPdf: "Zero Cloud Upload. Bản vẽ thiết kế, hồ sơ thầu, hợp đồng CPG KHÔNG BAO GIỜ bị gửi lên Internet. Tắt hẳn Wi-Fi vẫn biên tập và tải file về máy bình thường.",
+        perfTitlePdf: "TỐC ĐỘ XỬ LÝ NHANH HAY CHẬM DO ĐÂU?",
+        perfPdfNet: "Tốc độ Internet",
+        perfPdfNetDesc: "Chỉ cần thiết trong 2-3 giây đầu tiên để tải file nhị phân WASM vào cache máy tính.",
+        perfPdfGpu: "Độ mượt khi đọc bản vẽ & zoom trang",
+        perfPdfGpuDesc: "Phụ thuộc vào tốc độ của Card màn hình (GPU) của bạn.",
+        perfPdfCpu: "Thời gian gộp, trích xuất, nén tài liệu hàng trăm trang",
+        perfPdfCpuDesc: "Phụ thuộc vào tốc độ CPU và dung lượng RAM máy tính của bạn.",
 
         // Tooltips
         titleBrand: "Về trang chủ CPG PDF Studio",
@@ -2046,6 +2139,25 @@
         helpAlt: "Column text selection",
         close: "Close",
 
+        howItWorks: "How It Works",
+        titleHowItWorks: "Explain GPU hardware acceleration & client-side local architecture",
+        modalHowPdfTitle: "How It Works & Hardware Acceleration",
+        qnaQuestionPdf: "\"Even though used online, is it actually using my computer's local GPU and CPU? Is fast or slow processing determined by my own PC?\"",
+        qnaAnswerPdf: "👉 100% YES! All PDF parsing, vector rendering, CPG watermarking, document compression, and digital signing run 100% LOCALLY on your own computer hardware (GPU, CPU, RAM). The web server never sees or stores any pages.",
+        pillar1TitlePdf: "1. GPU & Canvas Rendering",
+        pillar1DescPdf: "Your browser utilizes your computer's GPU to render PDF pages smoothly at 60 FPS, providing crisp text anti-aliasing and responsive CAD drawing views.",
+        pillar2TitlePdf: "2. WebAssembly (Rust) & RAM",
+        pillar2DescPdf: "The native Rust WebAssembly core (PdfCraft) and PDF-Lib run directly inside your CPU and RAM, operating 10-20x faster than traditional JavaScript.",
+        pillar3TitlePdf: "3. 100% Enterprise Security",
+        pillar3DescPdf: "Zero Cloud Upload. Confidential CPG project drawings, bids, and contracts NEVER leave your device. You can disconnect Wi-Fi and keep editing offline.",
+        perfTitlePdf: "WHAT DETERMINES PROCESSING SPEED?",
+        perfPdfNet: "Internet Connection",
+        perfPdfNetDesc: "Only needed for 2-3 seconds to download the initial static WASM binary into browser cache.",
+        perfPdfGpu: "Drawing & Zoom Smoothness",
+        perfPdfGpuDesc: "Determined by the speed and shader performance of your graphics card (GPU).",
+        perfPdfCpu: "Batch Merge, Extraction & Compression",
+        perfPdfCpuDesc: "Determined by your CPU processing speed and available system RAM.",
+
         // Tooltips
         titleBrand: "Return to CPG PDF Studio Hub",
         titleOpen: "Open PDF file from computer (Ctrl+O)",
@@ -2214,6 +2326,7 @@
     document.getElementById("btnMergeModal").onclick = () => openModal("modalMerge");
     document.getElementById("btnSplitModal").onclick = () => openModal("modalSplit");
     document.getElementById("btnPortableInfo").onclick = () => openModal("modalPortable");
+    document.getElementById("btnHowItWorksPdf").onclick = () => openModal("modalHowItWorksPdf");
     document.getElementById("btnHelp").onclick = () => openModal("modalHelp");
 
     // Fullscreen toggle
